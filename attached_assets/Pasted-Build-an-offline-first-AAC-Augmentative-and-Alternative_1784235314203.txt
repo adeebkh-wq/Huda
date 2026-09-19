@@ -1,0 +1,106 @@
+Build an offline-first AAC (Augmentative and Alternative Communication) app
+for autistic children called "Huda," running on ALL devices from a
+single codebase — iOS, Android, tablets, and desktop/web (Windows, macOS,
+browsers). Use a cross-platform framework (e.g., Flutter, or React Native +
+a PWA/web build) so one codebase covers phones, tablets, and computers, with
+a responsive layout that adapts the tile grid to each screen size.
+
+CORE PRINCIPLE: The app must work 100% offline after install for all core
+features — no accounts, no login wall, no required network calls. Only one
+feature (picture search, below) may optionally use the internet.
+
+1. CORE COMMUNICATION ENGINE
+- Symbol/picture-based board (PECS-style): tap tiles to build sentences
+- On-device text-to-speech, adjustable pitch/speed, works with zero connectivity
+- Sentence-building bar above the tile grid: tapped tiles appear in order,
+  a "Speak" button reads the full sentence aloud, with clear/undo controls
+- Core word board (go, want, more, stop, help) always visible, plus
+  swappable topic boards (Breakfast, School, Feelings, etc.)
+- Multi-modal input: touch, and switch-access scanning where feasible
+- Keep interactions extremely simple: big buttons, minimal text, no
+  multi-step menus for core actions
+
+2. CAREGIVER MODE (PIN-locked, offline)
+- Add custom tiles using a photo from the local camera roll plus a
+  typed/recorded label
+- Organize tiles into custom boards
+- Build a visual daily schedule via drag-and-drop picture cards, plus
+  First/Then transition boards with visual countdown timers
+- Write custom social stories (short illustrated stories) for specific
+  situations, stored locally
+
+3. EMOTIONAL REGULATION TOOLS
+- "How I'm Feeling" screen: simple visual emotion picker (faces/colors, not
+  clinical labels)
+- Calm-down toolkit: breathing animation, sensory break timer, quiet-corner
+  mode that dims the screen and simplifies the UI
+- Quick-access phrases: "I need a break," "too loud," "too bright"
+- Store check-in history locally; viewable in Caregiver Mode as a simple
+  usage trend (not diagnostic)
+
+4. ON-DEVICE PERSONALIZATION
+- Track which tiles are used most often (locally, no external analytics)
+  and surface frequent tiles in a "Quick Access" row
+- As the child masters 2-word combinations repeatedly, offer gentle
+  scaffolding toward 3-word sentences
+- All personalization logic runs on-device — no external API calls
+
+5. APP LOCK / PIN
+- App-wide PIN/pattern lock: default to open child view, requiring the PIN
+  only to EXIT to phone settings or enter Caregiver Mode (so the child is
+  never blocked from communicating)
+- Separate, optional PIN specifically for Caregiver Mode
+- Integrate with platform kiosk features (iOS Guided Access, Android Screen
+  Pinning) where available, for shared/classroom tablets
+- Auto-relock after inactivity
+
+6. ONLINE PICTURE SEARCH + CUSTOM SOUND (the one optional online feature)
+- In Caregiver Mode, add "Search for a picture" — only active when internet
+  is available — to find and select an image for a new tile
+- Once selected, the image downloads and saves locally; no further internet
+  needed for that tile
+- Let the caregiver assign a sound: typed label via on-device TTS, or a
+  custom recorded voice clip (e.g., for a family member's name)
+- Clearly indicate in the UI when this specific feature needs connectivity;
+  everything else in the app must be unaffected if offline
+
+7. ACCESSIBILITY & SENSORY-SAFE DESIGN
+- No autoplay video, no flashing/strobing effects, no surprise sounds
+- Adjustable visual complexity (simple hi-contrast icons vs. detailed images)
+- Adjustable font size, high-contrast mode, dark mode, reduced-motion mode
+- Large touch targets throughout
+
+8. DONATION MESSAGE & PUBLISHER-ONLY ADMIN PANEL
+- Add a simple, non-intrusive "Support this app" message (shown occasionally
+  in Settings/Caregiver Mode, never interrupting the child) explaining the
+  app is free but takes effort to maintain, with a donation button linking
+  to a placeholder demo URL (e.g., "https://example.com/donate-demo")
+- Add a hidden, PUBLISHER-ONLY Admin Panel — for the developer/owner, NOT
+  caregivers:
+  - Not listed anywhere in normal navigation, Settings, or Caregiver Mode
+  - Reachable only via a hidden entry point (e.g., long-press on the app
+    version number), protected by its own passcode entirely separate from
+    the Caregiver Mode PIN
+  - The ONLY place the donation/payment link can be viewed or edited —
+    caregivers must have no access to it anywhere else in the app
+  - Scoped to edit just that one link, nothing else
+  - Fine to make this remotely updatable via a small config fetch, since
+    it's the publisher's own maintenance tool, not something offline
+    reliability needs to cover
+
+9. CAREGIVER/THERAPIST REPORTS
+- Local usage insights: most-used words, emotional check-in trends,
+  vocabulary growth over time
+- User-initiated export to PDF/CSV so a parent can manually share progress
+  with a therapist — never automatic or cloud-synced
+- Support multiple child profiles on one device for siblings or classrooms
+
+TECHNICAL NOTES
+- Local-first data storage (e.g., SQLite or an on-device encrypted store)
+- On-device TTS engine (platform-native speech synthesis or a bundled
+  offline model)
+- Confirm zero required network calls anywhere except the explicitly
+  optional picture-search feature and the publisher's admin config fetch
+
+Start by scaffolding the project and the Home board with a working tile grid
+and on-device TTS, then build outward through the remaining sections.

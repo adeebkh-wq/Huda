@@ -1,3 +1,0 @@
-# Huda
-
-AAC communication app.

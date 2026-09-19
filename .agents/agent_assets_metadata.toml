@@ -1,0 +1,99 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "W7XZXI2ecMWcwivAXbEVC"
+uri = "file://artifacts/huda/store-screenshots/01-home-board.jpg"
+type = "image"
+title = "1 — Home Board"
+
+[[outputs]]
+id = "34mO21GM8X5V-PgOynSQw"
+uri = "file://artifacts/huda/store-screenshots/02-feelings.jpg"
+type = "image"
+title = "2 — Feelings Check-in"
+
+[[outputs]]
+id = "UPWtA7nv4DLmMELRuqENl"
+uri = "file://artifacts/huda/store-screenshots/03-sensory-games.jpg"
+type = "image"
+title = "3 — Sensory Games"
+
+[[outputs]]
+id = "bc_iF1Ro7XxcX-K7rRkKG"
+uri = "file://artifacts/huda/store-screenshots/04-calming-sounds.jpg"
+type = "image"
+title = "4 — Calming Sounds"
+
+[[outputs]]
+id = "DzLv9ugK3wlxC1qHXbqHy"
+uri = "file://artifacts/huda/store-screenshots/05-kiosk-mode.jpg"
+type = "image"
+title = "5 — Kiosk Mode"
+
+[[outputs]]
+id = "D7xpbfFfS3johSv8cwvTA"
+uri = "file://artifacts/huda/store-screenshots/06-caregiver-settings.jpg"
+type = "image"
+title = "6 — Caregiver Settings"
+
+[[outputs]]
+id = "qqkYlWO_kwI4KdcSG9l3R"
+uri = "file://artifacts/huda/store-screenshots/07-offline-privacy.jpg"
+type = "image"
+title = "7 — Offline & Private"
+
+[[outputs]]
+id = "VQzUeyGqI1r1c-Cqsz0RV"
+uri = "file://artifacts/huda/store-screenshots/08-accessibility.jpg"
+type = "image"
+title = "8 — Accessibility"
+
+[[outputs]]
+id = "1SIbVP_Q5nsylF5rePMpT"
+uri = "file://attached_assets/huda-feature-graphic.jpg"
+type = "image"
+title = "Huda — Play Store Feature Graphic"
+description = "1024×500 px feature graphic for the Google Play listing"
+
+[[outputs]]
+id = "31SHjsmGG3hx_1A1NAlG6"
+uri = "file://attached_assets/huda-icon.png"
+type = "image"
+title = "Huda — App Icon"
+description = "1024×1024 px app icon"
+
+[[outputs]]
+id = "W959-JolRZ226uhrJP9zp"
+uri = "file://attached_assets/huda-feature-graphic-v2.jpg"
+type = "image"
+title = "Huda — Feature Graphic (matched to icon)"
+description = "1024×500 px — navy blue, hot pink, white to match the app icon"
+
+[[outputs]]
+id = "c6RzJjUByzZ17-w3javfW"
+uri = "file://attached_assets/huda-feature-graphic-final.jpg"
+type = "image"
+title = "Huda — Feature Graphic 1024×500 px"
+description = "Exact Play Store dimensions — ready to upload"
+
+[[outputs]]
+id = "Df2p0NJJix-6lylx3iPVR"
+uri = "file://attached_assets/huda-feature-final.jpg"
+type = "image"
+title = "Huda — Feature Graphic 1024×500 px"
+description = "Exact Play Store dimensions, icon composited at full size — nothing cropped"
+
+[[outputs]]
+id = "_-kQW0DO2tULEW_QcTTQT"
+uri = "file://attached_assets/huda-feature-v3.jpg"
+type = "image"
+title = "Huda — Feature Graphic 1024×500 px"
+description = "AAC tiles, bubbles, and Mirror Draw in the background"
+
+[[outputs]]
+id = "CsQRrpXZ3Lghs1KVX68g2"
+uri = "file://attached_assets/huda-feature-v4.jpg"
+type = "image"
+title = "Huda — Feature Graphic 1024×500 px"
+description = "Background features at higher opacity"

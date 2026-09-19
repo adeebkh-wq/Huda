@@ -1,0 +1,16 @@
+- [tile-size-color-theme](tile-size-color-theme.md) — TileGrid column offset for tile size; applyColorTheme overlay in useColors; CaregiverContext must be exported.
+- [Device-only local caregiver admin](local-admin-auth.md) — Email-free local auth coexists with Clerk; store salted PIN hash in SecureStore and never restore a default bypass PIN.
+- [Huda is fully free](free-app-no-payments.md) — No subscriptions, paywalls, billing SDKs, trials, or purchase UI unless the user explicitly reverses this decision.
+- [expo-speech version](expo-speech-version.md) — SDK 54 requires expo-speech@^14.0.8; pnpm default installs wrong major.
+- [ionicons-android-blank](ionicons-android-blank.md) — Font-based @expo/vector-icons blank on Android in Expo Go SDK 54; fix is SVG icons via lucide-react-native.
+- [clerk-expo-v3-android-shim](clerk-expo-v3-android-shim.md) — v3 works in Expo Go via Metro resolver shim; v2 is broken (pulls @clerk/react@5 which uses DOM-only loadClerkUiScript). Full v3 API changes documented.
+- [clerk-expo-v3-reset-password](clerk-expo-v3-reset-password.md) — attemptFirstFactor removed in v3; use verifyResetPasswordEmailCode + submitResetPassword. Never double-navigate with router.replace after finalize.
+- [clerk-expo-v2-revenuecat-connector](clerk-expo-v2-revenuecat-connector.md) — RevenueCat connector paths need /v2 prefix; hey-api passes Request object not string to custom fetch. (@clerk/expo note superseded by v3 shim file)
+- [mirror-draw-web-native](mirror-draw-web-native.md) — GestureHandlerRootView kills PanResponder; use Gesture.Pan() on native, DOM addEventListener on web; SVG needs width="100%" height="100%".
+- [expo-av audio setup](expo-av-audio.md) — must call setAudioModeAsync before recording and before playback; iOS silent mode needs playsInSilentModeIOS:true.
+- [expo-av asset download in Expo Go](expo-av-asset-download.md) — asset.localUri is a ~240-byte stub on Android; always use asset.uri + FileSystem.downloadAsync to a .wav path.
+- [tile image manifest](tile-image-manifest.md) — Metro require() must be static; all bundled tile images pre-declared in assets/tileImages.ts.
+- [clerk-auth-huda](clerk-auth-huda.md) — Clerk + device-session architecture for Huda; auth screens, route guards, API endpoints.
+- [expo-cors-replit](expo-cors-replit.md) — Metro CorsMiddleware blocks *.expo.pike.replit.dev; fix via app.config.js + EXPO_ROUTER_ORIGIN env var.
+- [expo-web-audio](expo-web-audio.md) — expo-av on web breaks autoplay policy; bypass it with HTMLAudioElement + pre-resolved URIs. Also: expo-file-system/legacy for v19 cacheDirectory.
+- [eas-env-vars](eas-env-vars.md) — Replit EXPO_PUBLIC_* env vars are NOT picked up by EAS builds; must be set explicitly on expo.dev or via eas-cli env:create.
