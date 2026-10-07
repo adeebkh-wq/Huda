@@ -17,10 +17,7 @@ export function useColors() {
   const caregiver = useContext(CaregiverContext);
   const colorTheme = caregiver?.settings?.colorTheme ?? 'default';
 
-  const basePalette =
-    scheme === 'dark' && 'dark' in colors
-      ? (colors as Record<string, typeof colors.light>).dark
-      : colors.light;
+  const basePalette = scheme === 'dark' ? colors.dark : colors.light;
 
   return { ...applyColorTheme(basePalette, colorTheme), radius: colors.radius };
 }

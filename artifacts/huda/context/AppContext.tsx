@@ -9,7 +9,7 @@ import React, {
 } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Speech from 'expo-speech';
-import { Audio } from 'expo-av';
+import { Audio } from '@/lib/audio';
 import { DEFAULT_BOARDS, ALPHA_PALETTE, type Board, type Tile, type IconLib } from '@/data/defaultBoards';
 import {
   translateLabel, LANGUAGE_TO_BCP47, LANGUAGE_ALPHABETS, ALPHABET_BOARD_NAMES,

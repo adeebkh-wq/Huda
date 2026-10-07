@@ -10,19 +10,15 @@
  *   server accepts asset requests from the Replit proxy.
  */
 
-// Pull base config from app.json (all static values live there).
-const appJson = require('./app.json');
-const base = appJson.expo;
-
 // Build the expo-router origin: prefer the env-injected Replit expo domain,
 // fall back to the hardcoded value so production builds are unaffected.
 const routerOrigin = process.env.EXPO_ROUTER_ORIGIN || 'https://replit.com/';
 
-module.exports = {
-  ...base,
+module.exports = ({ config }) => ({
+  ...config,
   plugins: [
     ['expo-router', { origin: routerOrigin }],
     // Keep all other plugins from app.json (skip the first expo-router entry).
-    ...base.plugins.slice(1),
+    ...(config.plugins || []).slice(1),
   ],
-};
+});

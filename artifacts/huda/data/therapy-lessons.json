@@ -1,0 +1,136 @@
+{
+  "references": [
+    {
+      "id": "cdc",
+      "organization": "Centers for Disease Control and Prevention",
+      "title": "Treatment and Intervention for Autism Spectrum Disorder",
+      "url": "https://www.cdc.gov/autism/treatment/index.html",
+      "summary": "Describes speech and language therapy, occupational therapy, developmental approaches, and behavioral approaches. Supports selecting help around an individual's needs, not a single treatment for everyone."
+    },
+    {
+      "id": "asha",
+      "organization": "American Speech-Language-Hearing Association",
+      "title": "Augmentative and Alternative Communication (AAC)",
+      "url": "https://www.asha.org/public/speech/disorders/aac/",
+      "summary": "Explains gestures, pictures, communication boards, and speech-generating devices. AAC has no prerequisite milestones and can support language alongside speech. A speech-language pathologist can assess and customize access."
+    },
+    {
+      "id": "nice",
+      "organization": "National Institute for Health and Care Excellence",
+      "title": "CG170: Autism spectrum disorder in under 19s — support and management",
+      "url": "https://www.nice.org.uk/guidance/cg170/chapter/recommendations",
+      "summary": "Section 1.3.1 recommends developmentally appropriate, professionally delivered play-based social-communication support with caregiver involvement. Sections 1.4.1–1.4.9 emphasize communication needs, physical health, the environment, functional assessment, and quality-of-life goals when addressing distressing or unsafe behavior."
+    },
+    {
+      "id": "who",
+      "organization": "World Health Organization",
+      "title": "Caregiver skills training for families of children with developmental delays or disabilities: introduction (2022)",
+      "url": "https://www.who.int/publications/i/item/9789240048836",
+      "summary": "Describes a structured caregiver training package for families of children aged 2–9 years. It aims to support engagement, communication, positive behavior, and daily-living skills through everyday activities with trained facilitators."
+    },
+    {
+      "id": "aap",
+      "organization": "American Academy of Pediatrics",
+      "title": "Hyman, Levy & Myers (2020): Identification, Evaluation, and Management of Children With Autism Spectrum Disorder",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/31843864/",
+      "summary": "A clinical report on individualized support, co-occurring conditions, communication, and interventions. It discusses evidence limitations and the need to connect services to functional goals and review outcomes."
+    }
+  ],
+  "lessons": [
+    {
+      "id": "speech-aac",
+      "title": "Speech, language & AAC",
+      "category": "Communication",
+      "icon": "chatbubble-outline",
+      "summary": "Support understanding and expression using speech, gestures, pictures, or a communication device.",
+      "benefits": ["More ways to express wants, needs, choices, and refusal.", "Support for understanding language and everyday conversations.", "Communication access even when speaking is difficult."],
+      "limitations": "AAC and speech-language therapy are individualized. AAC is not a guarantee of spoken language, and speech is not the only meaningful outcome.",
+      "professional": "A speech-language pathologist can assess communication and help choose an accessible system.",
+      "referenceIds": ["asha", "cdc"],
+      "segments": [
+        {"heading": "Every way of communicating counts", "caption": "Speech, gestures, pictures, and devices can all help a child share a message.", "visual": "communication"},
+        {"heading": "More than spoken words", "caption": "Speech-language therapy can support understanding, expression, and communication with other people.", "visual": "conversation"},
+        {"heading": "A picture can carry a message", "caption": "AAC offers another route to express a choice, a need, or a refusal.", "visual": "choice"},
+        {"heading": "Access comes before performance", "caption": "There are no prerequisite milestones for AAC. It can be used alongside speech.", "visual": "access"},
+        {"heading": "Make it fit the child", "caption": "An SLP can adapt vocabulary and access. Meaningful communication matters more than saying words on demand.", "visual": "steps"},
+        {"heading": "Learn with a qualified professional", "caption": "Benefits differ by child. Original educational animation, not treatment instructions. References: ASHA; CDC.", "visual": "reference"}
+      ]
+    },
+    {
+      "id": "occupational",
+      "title": "Occupational therapy",
+      "category": "Everyday participation",
+      "icon": "hand-left-outline",
+      "summary": "Help a child participate in daily routines, play, and self-care in ways that suit their abilities.",
+      "benefits": ["Support for dressing, eating, and other daily routines.", "Adaptations for motor, sensory, and environmental barriers.", "Practical goals that matter at home and school."],
+      "limitations": "Evidence differs across occupational therapy techniques. Sensory activities do not help every child; a sensory-based intervention should have clear goals and its effect should be reviewed.",
+      "professional": "An occupational therapist assesses participation and designs an individualized plan with the child and family.",
+      "referenceIds": ["cdc", "aap"],
+      "segments": [
+        {"heading": "Make everyday life more accessible", "caption": "Occupational therapy focuses on participating in daily activities, not changing who a child is.", "visual": "routine"},
+        {"heading": "Choose a meaningful goal", "caption": "Goals may involve dressing, eating, play, or taking part in a classroom routine.", "visual": "steps"},
+        {"heading": "Change the task or environment", "caption": "An OT may adapt tools, break down a task, or reduce a sensory barrier.", "visual": "environment"},
+        {"heading": "Comfort supports participation", "caption": "Motor and sensory needs differ. A useful adaptation for one child may not suit another.", "visual": "balance"},
+        {"heading": "Check whether it helps", "caption": "Evidence varies by technique. Agree on a functional goal and review progress with the therapist.", "visual": "progress"},
+        {"heading": "Support, not a cure", "caption": "An OT individualizes the plan. Original educational animation, not an exercise prescription. References: CDC; AAP.", "visual": "reference"}
+      ]
+    },
+    {
+      "id": "play",
+      "title": "Play-based developmental support",
+      "category": "Connection & learning",
+      "icon": "color-palette-outline",
+      "summary": "Use enjoyable, developmentally appropriate play to support shared engagement and communication.",
+      "benefits": ["Opportunities for reciprocal communication and shared enjoyment.", "Learning within interests and everyday play.", "Caregivers can participate with professional coaching."],
+      "limitations": "Play-based approaches differ and outcomes vary. No single branded program is best for every child. This guide does not teach a specific therapy protocol.",
+      "professional": "A trained professional can choose appropriate play-based social-communication strategies with the family.",
+      "referenceIds": ["nice", "cdc"],
+      "segments": [
+        {"heading": "Connection through shared enjoyment", "caption": "Play-based approaches use activities a child finds interesting to support engagement and learning.", "visual": "play"},
+        {"heading": "Communication can happen in play", "caption": "Shared attention, turn-taking, and reciprocal communication can be goals of professional support.", "visual": "conversation"},
+        {"heading": "Fit the developmental level", "caption": "NICE recommends adapting social-communication strategies to the child's abilities and needs.", "visual": "steps"},
+        {"heading": "Caregivers can be partners", "caption": "A trained professional may coach parents or carers to support interaction in everyday activities.", "visual": "together"},
+        {"heading": "Respect the child's comfort", "caption": "Shared engagement is not forced eye contact. Enjoyment and willingness to participate matter.", "visual": "balance"},
+        {"heading": "Choose support together", "caption": "Outcomes vary across approaches. Original educational animation, not a therapy protocol. References: NICE CG170; CDC.", "visual": "reference"}
+      ]
+    },
+    {
+      "id": "caregiver",
+      "title": "Caregiver skills coaching",
+      "category": "Family support",
+      "icon": "people-outline",
+      "summary": "Help caregivers use everyday routines to support engagement, communication, and daily-living skills.",
+      "benefits": ["Consistent communication opportunities during familiar routines.", "Practical coaching connected to family priorities.", "Support for engagement, daily-living skills, and positive interactions."],
+      "limitations": "Caregiver coaching does not replace professional care. The WHO package targets ages 2–9 with developmental delays or disabilities; suitability and local delivery should be discussed with trained services.",
+      "professional": "A trained facilitator or appropriate clinician can coach the family, adapt goals, and review progress.",
+      "referenceIds": ["who", "nice"],
+      "segments": [
+        {"heading": "Everyday routines can support learning", "caption": "Caregiver coaching builds opportunities for communication and engagement into familiar daily activities.", "visual": "routine"},
+        {"heading": "Support the caregiver too", "caption": "A trained facilitator helps families select practical goals, rather than expecting them to manage alone.", "visual": "together"},
+        {"heading": "Skills for daily life", "caption": "WHO caregiver training aims to support communication, engagement, positive behavior, and daily-living skills.", "visual": "steps"},
+        {"heading": "Adapt to the family", "caption": "Time, resources, language, and the child's needs influence which strategies are workable.", "visual": "environment"},
+        {"heading": "Coaching is not a replacement for care", "caption": "The WHO package targets children aged 2 to 9. Discuss suitability and support with trained services.", "visual": "access"},
+        {"heading": "Small goals, shared review", "caption": "Progress differs between families. Original educational animation, not the WHO course. References: WHO CST; NICE CG170.", "visual": "reference"}
+      ]
+    },
+    {
+      "id": "behavior",
+      "title": "Positive behavior support & ABA",
+      "category": "Safety & quality of life",
+      "icon": "shield-checkmark-outline",
+      "summary": "Understand distress or unsafe behavior and support useful skills through individualized, respectful care.",
+      "benefits": ["Identify communication, health, or environmental needs behind distress.", "Support useful communication and safer alternatives.", "Review outcomes that improve daily life rather than compliance alone."],
+      "limitations": "ABA and other behavioral approaches vary widely, and they are not interchangeable. Evidence and acceptability differ. An autism diagnosis alone does not determine whether a particular approach is appropriate.",
+      "professional": "Use a qualified multidisciplinary team or behavioral professional who works with the child and family, considers assent, and measures meaningful outcomes.",
+      "referenceIds": ["nice", "cdc"],
+      "segments": [
+        {"heading": "Start by understanding the need", "caption": "Distress or unsafe behavior may be linked to pain, communication barriers, or an overwhelming environment.", "visual": "environment"},
+        {"heading": "Assessment before a strategy", "caption": "NICE recommends checking health and environmental causes, then using functional assessment where appropriate.", "visual": "steps"},
+        {"heading": "Build useful alternatives", "caption": "Behavioral approaches, including ABA, may support communication and daily-living skills. Programs vary widely.", "visual": "choice"},
+        {"heading": "Quality of life is the goal", "caption": "Choose meaningful goals with professionals and family. Respect the child's comfort, preferences, and willingness.", "visual": "together"},
+        {"heading": "Not obedience at any cost", "caption": "Do not punish distress or target harmless differences just to appear typical. Review concerns with qualified professionals.", "visual": "balance"},
+        {"heading": "Individual support, measured outcomes", "caption": "There is no one-size-fits-all program. Original educational animation, not behavior-management instructions. References: NICE CG170; CDC.", "visual": "reference"}
+      ]
+    }
+  ]
+}

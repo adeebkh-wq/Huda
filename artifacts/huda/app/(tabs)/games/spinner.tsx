@@ -106,7 +106,7 @@ function SpinnerGameInner() {
       {/* Header — outside pan zone so back button is always tappable */}
       <View style={[styles.header, { paddingTop: topPad + 8 }]}>
         <Pressable
-          onPress={() => router.back()}
+          onPress={() => router.canGoBack() ? router.back() : router.replace('/(tabs)/games')}
           style={({ pressed }) => [styles.back, { opacity: pressed ? 0.6 : 1 }]}
           accessibilityLabel="Back"
         >

@@ -13,7 +13,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import * as FileSystem from 'expo-file-system';
+import * as FileSystem from 'expo-file-system/legacy';
 import { Ionicons } from '@/components/IoniconsSVG';
 import { useColors } from '@/hooks/useColors';
 
@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
   gridItem: { width: ITEM_SIZE, height: ITEM_SIZE, margin: 3, borderRadius: 10, overflow: 'hidden' },
   gridImg: { width: '100%', height: '100%' },
   gridOverlay: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     backgroundColor: 'rgba(0,0,0,0.45)',
     alignItems: 'center', justifyContent: 'center',
   },

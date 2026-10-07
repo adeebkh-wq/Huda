@@ -8,7 +8,8 @@ import {
   Text,
   View,
 } from 'react-native';
-import { Audio } from 'expo-av';
+import { Audio } from '@/lib/audio';
+import { RecordingPresets, requestRecordingPermissionsAsync, useAudioRecorder } from 'expo-audio';
 import { Ionicons } from '@/components/IoniconsSVG';
 import * as Haptics from 'expo-haptics';
 import { useColors } from '@/hooks/useColors';
@@ -27,7 +28,8 @@ export function AudioRecorderModal({ visible, tileLabel, onSave, onCancel }: Pro
   const [phase, setPhase] = useState<Phase>('idle');
   const [duration, setDuration] = useState(0);
   const [recordedUri, setRecordedUri] = useState<string | null>(null);
-  const recordingRef = useRef<Audio.Recording | null>(null);
+  const [recordError, setRecordError] = useState<string | null>(null);
+  const recorder = useAudioRecorder(RecordingPresets.HIGH_QUALITY);
   const soundRef    = useRef<Audio.Sound | null>(null);
   const timerRef    = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -37,28 +39,33 @@ export function AudioRecorderModal({ visible, tileLabel, onSave, onCancel }: Pro
 
   const cleanup = useCallback(async () => {
     stopTimer();
-    try { await recordingRef.current?.stopAndUnloadAsync(); } catch {}
+    try { if (recorder.isRecording) await recorder.stop(); } catch {}
     try { await soundRef.current?.unloadAsync(); } catch {}
-    recordingRef.current = null;
     soundRef.current     = null;
-  }, []);
+  }, [recorder]);
 
   useEffect(() => {
-    if (!visible) { cleanup(); setPhase('idle'); setDuration(0); setRecordedUri(null); }
+    if (!visible) { cleanup(); setPhase('idle'); setDuration(0); setRecordedUri(null); setRecordError(null); }
   }, [visible, cleanup]);
 
   const startRecording = async () => {
+    setRecordError(null);
     try {
-      const { granted } = await Audio.requestPermissionsAsync();
-      if (!granted) { Alert.alert('Permission needed', 'Microphone access is required to record audio.'); return; }
+      const { granted } = await requestRecordingPermissionsAsync();
+      if (!granted) {
+        setRecordError('Microphone access is required to record audio. Please allow it in your device settings.');
+        Alert.alert('Permission needed', 'Microphone access is required to record audio.');
+        return;
+      }
       await Audio.setAudioModeAsync({ allowsRecordingIOS: true, playsInSilentModeIOS: true });
-      const { recording } = await Audio.Recording.createAsync(Audio.RecordingOptionsPresets.HIGH_QUALITY);
-      recordingRef.current = recording;
+      await recorder.prepareToRecordAsync();
+      recorder.record();
       setPhase('recording');
       setDuration(0);
       timerRef.current = setInterval(() => setDuration((d) => d + 1), 1000);
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy).catch(() => {});
     } catch (e) {
+      setRecordError(`Could not start recording. ${e instanceof Error ? e.message : 'Check that a microphone is available.'}`);
       Alert.alert('Error', 'Could not start recording.');
     }
   };
@@ -66,9 +73,8 @@ export function AudioRecorderModal({ visible, tileLabel, onSave, onCancel }: Pro
   const stopRecording = async () => {
     stopTimer();
     try {
-      await recordingRef.current?.stopAndUnloadAsync();
-      const uri = recordingRef.current?.getURI();
-      recordingRef.current = null;
+      await recorder.stop();
+      const uri = recorder.uri;
       if (uri) { setRecordedUri(uri); setPhase('recorded'); }
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
     } catch {
@@ -85,7 +91,7 @@ export function AudioRecorderModal({ visible, tileLabel, onSave, onCancel }: Pro
       soundRef.current = sound;
       setPhase('playing');
       await sound.playAsync();
-      sound.setOnPlaybackStatusUpdate((s) => { if (!s.isLoaded || !s.isPlaying) setPhase('recorded'); });
+      sound.setOnPlaybackStatusUpdate((s) => { if (!s.isLoaded || s.didJustFinish) setPhase('recorded'); });
     } catch {}
   };
 
@@ -110,6 +116,11 @@ export function AudioRecorderModal({ visible, tileLabel, onSave, onCancel }: Pro
           <Text style={[styles.sub, { color: colors.mutedForeground }]}>
             This sound will play when "{tileLabel}" is tapped
           </Text>
+          {recordError && (
+            <Text accessibilityRole="alert" style={[styles.sub, { color: colors.foreground }]}>
+              {recordError}
+            </Text>
+          )}
 
           {/* Visualiser ring */}
           <View style={[styles.ring, {

@@ -1,0 +1,164 @@
+name: Android APK and AAB
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_code:
+        description: Optional Android version code (must exceed the last Google Play upload)
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: android-build-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  android:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    defaults:
+      run:
+        shell: bash
+    env:
+      CI: '1'
+      EXPO_NO_TELEMETRY: '1'
+      EXPO_UNSTABLE_HEADLESS: '1'
+      EXPO_PUBLIC_DOMAIN: ${{ vars.EXPO_PUBLIC_DOMAIN }}
+      EXPO_PUBLIC_REPL_ID: ${{ vars.EXPO_PUBLIC_REPL_ID }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.26.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: pnpm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-read-only: false
+
+      - name: Install locked workspace dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check Huda's TypeScript and Expo dependencies
+        working-directory: artifacts/huda
+        run: |
+          pnpm run typecheck
+          pnpm exec expo install --check
+
+      - name: Set build version
+        env:
+          REQUESTED_VERSION_CODE: ${{ inputs.version_code }}
+        run: node artifacts/huda/scripts/prepare-android-build.mjs
+
+      - name: Prepare optional upload signing key
+        id: signing
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          export ANDROID_KEYSTORE_FILE="$RUNNER_TEMP/huda-upload.keystore"
+          echo "ANDROID_KEYSTORE_FILE=$ANDROID_KEYSTORE_FILE" >> "$GITHUB_ENV"
+          count=0
+          for name in ANDROID_KEYSTORE_BASE64 ANDROID_KEYSTORE_PASSWORD ANDROID_KEY_ALIAS ANDROID_KEY_PASSWORD; do
+            if [[ -n "${!name}" ]]; then count=$((count + 1)); fi
+          done
+          if [[ "$count" == 0 ]]; then
+            echo 'configured=false' >> "$GITHUB_OUTPUT"
+            echo 'No upload key configured: APK will use a test key; AAB will be unsigned.' >> "$GITHUB_STEP_SUMMARY"
+          elif [[ "$count" == 4 ]]; then
+            umask 077
+            printf '%s' "$ANDROID_KEYSTORE_BASE64" | base64 --decode > "$ANDROID_KEYSTORE_FILE"
+            test -s "$ANDROID_KEYSTORE_FILE"
+            echo 'configured=true' >> "$GITHUB_OUTPUT"
+            echo 'Both files will be signed with the configured upload key.' >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo '::error::Release signing is only partially configured. Supply all four Android signing secrets, or remove the partial configuration.'
+            exit 1
+          fi
+
+      - name: Generate native Android project on the GitHub runner
+        working-directory: artifacts/huda
+        run: pnpm exec expo prebuild --platform android --no-install
+
+      - name: Build standalone APK with bundled JavaScript and offline assets
+        id: apk
+        working-directory: artifacts/huda/android
+        env:
+          ANDROID_SIGNING_MODE: ${{ steps.signing.outputs.configured == 'true' && 'release' || 'test' }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          chmod +x gradlew
+          ./gradlew :app:assembleRelease --no-daemon --max-workers=2 \
+            -PreactNativeArchitectures=arm64-v8a,x86_64 \
+            -I ../scripts/android-signing.gradle
+          mkdir -p "$GITHUB_WORKSPACE/android-builds/apk"
+          cp app/build/outputs/apk/release/*.apk "$GITHUB_WORKSPACE/android-builds/apk/"
+          test -n "$(find "$GITHUB_WORKSPACE/android-builds/apk" -name '*.apk' -print -quit)"
+
+      - name: Save APK download
+        if: ${{ always() && steps.apk.outcome == 'success' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: huda-apk-${{ github.run_number }}
+          path: android-builds/apk/*.apk
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Build Android App Bundle
+        id: aab
+        working-directory: artifacts/huda/android
+        env:
+          ANDROID_SIGNING_MODE: ${{ steps.signing.outputs.configured == 'true' && 'release' || 'unsigned' }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          ./gradlew :app:bundleRelease --no-daemon --max-workers=2 \
+            -PreactNativeArchitectures=arm64-v8a,x86_64 \
+            -I ../scripts/android-signing.gradle
+          mkdir -p "$GITHUB_WORKSPACE/android-builds/aab"
+          cp app/build/outputs/bundle/release/*.aab "$GITHUB_WORKSPACE/android-builds/aab/"
+          test -n "$(find "$GITHUB_WORKSPACE/android-builds/aab" -name '*.aab' -print -quit)"
+
+      - name: Save AAB download
+        if: ${{ always() && steps.aab.outcome == 'success' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: huda-aab-${{ steps.signing.outputs.configured == 'true' && 'signed' || 'unsigned' }}-${{ github.run_number }}
+          path: android-builds/aab/*.aab
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Explain build outputs
+        if: ${{ success() }}
+        env:
+          RELEASE_SIGNED: ${{ steps.signing.outputs.configured }}
+        run: |
+          echo '### Huda Android build' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Download the APK and AAB from this run’s Artifacts section.' >> "$GITHUB_STEP_SUMMARY"
+          if [[ "$RELEASE_SIGNED" != true ]]; then
+            echo '**APK:** standalone test-key-signed build, not a Play release.' >> "$GITHUB_STEP_SUMMARY"
+            echo '**AAB:** unsigned; it must be signed with your existing upload key before Google Play will accept it.' >> "$GITHUB_STEP_SUMMARY"
+            echo 'Do not uninstall an existing Huda installation to resolve a signing mismatch: uninstalling removes its local boards, recordings, and settings.' >> "$GITHUB_STEP_SUMMARY"
+          fi
+          echo 'Nothing has been uploaded to Google Play.' >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Remove temporary signing key
+        if: ${{ always() }}
+        run: rm -f "$ANDROID_KEYSTORE_FILE"

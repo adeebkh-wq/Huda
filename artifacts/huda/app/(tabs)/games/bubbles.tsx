@@ -96,12 +96,12 @@ function BubblesGameInner() {
   const [milestoneBursts, setMilestoneBursts] = useState<MilestoneBurst[]>([]);
 
   const bubblesRef = useRef<Bubble[]>([]);
-  const timerRef = useRef<ReturnType<typeof setInterval>>();
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   // Streak tracking refs — synchronous access inside pop()
   const lastPopTimeRef = useRef<number>(0);
   const streakCountRef = useRef<number>(0);
-  const streakResetRef = useRef<ReturnType<typeof setTimeout>>();
+  const streakResetRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const spawn = useCallback(() => {
     const size = 46 + Math.random() * 60;
@@ -361,7 +361,7 @@ function BubblesGameInner() {
       {/* Header */}
       <View style={[styles.header, { paddingTop: topPad + 8 }]}>
         <Pressable
-          onPress={() => router.back()}
+          onPress={() => router.canGoBack() ? router.back() : router.replace('/(tabs)/games')}
           style={({ pressed }) => [styles.back, { opacity: pressed ? 0.6 : 1 }]}
           accessibilityLabel="Back"
         >
@@ -387,7 +387,7 @@ function BubblesGameInner() {
       </View>
 
       {/* Bubbles */}
-      <View style={StyleSheet.absoluteFillObject} pointerEvents="box-none">
+      <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
         {bubbles.map(b => (
           <Animated.View
             key={b.id}
@@ -444,13 +444,13 @@ function BubblesGameInner() {
       {milestoneBursts.map(burst => (
         <View
           key={burst.id}
-          style={StyleSheet.absoluteFillObject}
+          style={StyleSheet.absoluteFill}
           pointerEvents="none"
         >
           {/* Full-screen colour flash */}
           <Animated.View
             style={[
-              StyleSheet.absoluteFillObject,
+              StyleSheet.absoluteFill,
               { backgroundColor: burst.flashColor, opacity: burst.flashOpacity },
             ]}
           />

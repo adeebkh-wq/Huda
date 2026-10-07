@@ -275,7 +275,7 @@ const styles = StyleSheet.create({
     gap: 4, padding: 6, overflow: 'hidden',
     shadowColor: '#000', shadowOpacity: 0.15, shadowRadius: 6, shadowOffset: { width: 0, height: 3 }, elevation: 4,
   },
-  previewImg: { ...StyleSheet.absoluteFillObject, width: '100%', height: '80%' },
+  previewImg: { ...StyleSheet.absoluteFill, width: '100%', height: '80%' },
   previewLabel: { color: '#fff', fontSize: 12, fontWeight: '700', textAlign: 'center', fontFamily: 'Inter_700Bold', textShadowColor: 'rgba(0,0,0,0.4)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 3 },
   imageBtns: { flex: 1, gap: 8 },
   imgBtn: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingVertical: 9, paddingHorizontal: 12, borderRadius: 12, borderWidth: 1 },

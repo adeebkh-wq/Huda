@@ -82,7 +82,7 @@ export default function GamesHub() {
     <View style={styles.container}>
       <View style={[styles.header, { paddingTop: topPad + 8 }]}>
         <Pressable
-          onPress={() => router.back()}
+          onPress={() => router.canGoBack() ? router.back() : router.replace('/(tabs)/caregiver')}
           style={({ pressed }) => [styles.backBtn, { opacity: pressed ? 0.6 : 1 }]}
           accessibilityLabel="Go back"
         >

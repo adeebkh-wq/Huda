@@ -8,15 +8,13 @@
  */
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Platform } from 'react-native';
-import { Audio, InterruptionModeIOS, InterruptionModeAndroid } from 'expo-av';
+import { Audio, InterruptionModeIOS, InterruptionModeAndroid } from '@/lib/audio';
 import GAME_SOUNDS from '@/assets/sounds/index';
 
 export type GameSoundKey = keyof typeof GAME_SOUNDS;
 
 export function useGameSound(soundKey: GameSoundKey) {
-  // expo-av v14 has a DeviceEventEmitter bug on web triggered by the
-  // onPlaybackStatusUpdate callback. Game sounds pass `null` for that callback,
-  // so they are safe to use on web. No platform guard needed here.
+  // The shared service owns expo-audio player cleanup on both platforms.
 
   const soundRef   = useRef<Audio.Sound | null>(null);
   const loadedRef  = useRef(false);
@@ -44,7 +42,6 @@ export function useGameSound(soundKey: GameSoundKey) {
 
       try {
         // downloadFirst: false — assets are bundled by Metro, no network fetch needed.
-        // null status callback avoids the DeviceEventEmitter crash on web (expo-av v14).
         const { sound } = await Audio.Sound.createAsync(
           GAME_SOUNDS[soundKey],
           { volume: 0.75, shouldPlay: false },

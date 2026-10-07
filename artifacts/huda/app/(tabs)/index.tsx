@@ -94,7 +94,7 @@ export default function HomeScreen() {
   const handleCaregiverPress = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => {});
     if (!caregiverPin) {
-      router.push('/(tabs)/caregiver/');
+      router.push('/(tabs)/caregiver');
     } else {
       setShowPinModal(true);
     }
@@ -102,7 +102,7 @@ export default function HomeScreen() {
 
   const handlePinSuccess = () => {
     setShowPinModal(false);
-    router.push('/(tabs)/caregiver/');
+    router.push('/(tabs)/caregiver');
   };
 
   const toggleQuietMode = () => {
@@ -189,7 +189,7 @@ export default function HomeScreen() {
 
       {/* Quiet Mode Overlay */}
       <Animated.View
-        style={[StyleSheet.absoluteFillObject, styles.quietOverlay, quietStyle]}
+        style={[StyleSheet.absoluteFill, styles.quietOverlay, quietStyle]}
         pointerEvents={quietMode ? 'auto' : 'none'}
       >
         <View style={styles.quietContent}>

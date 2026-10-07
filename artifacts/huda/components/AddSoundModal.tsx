@@ -23,7 +23,7 @@ import {
   View,
 } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
-import { Audio } from 'expo-av';
+import { Audio } from '@/lib/audio';
 import { Ionicons } from '@/components/IoniconsSVG';
 import type { CalmingSound } from '@/data/calmingSounds';
 
@@ -203,7 +203,7 @@ export function AddSoundModal({ visible, onAdd, onClose }: Props) {
 
 const styles = StyleSheet.create({
   overlay: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     backgroundColor: 'rgba(0,0,0,0.55)',
   },
   sheet: {

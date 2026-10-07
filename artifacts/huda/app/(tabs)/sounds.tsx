@@ -31,7 +31,7 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import Slider from '@react-native-community/slider';
-import { Audio } from 'expo-av';
+import { Audio } from '@/lib/audio';
 import { Asset } from 'expo-asset';
 import * as FileSystem from 'expo-file-system/legacy';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -135,8 +135,7 @@ export default function SoundsScreen() {
       const el = webAudioRef.current;
       if (!el) return;
       webAudioRef.current = null;
-      el.pause();
-      el.src = '';
+      disposeWebAudio(el);
       return;
     }
     const s = soundRef.current;
@@ -158,7 +157,7 @@ export default function SoundsScreen() {
       : (sound.loop ?? true);
     isLoopingRef.current = isLooping;
 
-    // ── Web path: bypass expo-av, use HTMLAudioElement directly ──────────
+    // ── Web path: use HTMLAudioElement within the user gesture ──────────
     // All async work (URI resolution) is done on mount so that .play() can
     // be called synchronously here — the browser autoplay policy requires
     // .play() to happen within the user-gesture call stack with no awaits.
@@ -167,7 +166,7 @@ export default function SoundsScreen() {
       if (playingId === sound.id) {
         const el = webAudioRef.current;
         webAudioRef.current = null;
-        if (el) { el.pause(); el.src = ''; }
+        disposeWebAudio(el);
         setPlayingId(null);
         return;
       }
@@ -175,7 +174,7 @@ export default function SoundsScreen() {
       // Stop previous
       const prev = webAudioRef.current;
       webAudioRef.current = null;
-      if (prev) { prev.pause(); prev.src = ''; }
+      disposeWebAudio(prev);
 
       const url = webUrls[sound.id];
       if (!url) {
@@ -196,12 +195,14 @@ export default function SoundsScreen() {
 
       el.oncanplay = () => setLoadState((s) => ({ ...s, [sound.id]: 'ready' }));
       el.onended   = () => {
+        if (webAudioRef.current !== el) return;
         if (!isLoopingRef.current) {
           setPlayingId(null);
           webAudioRef.current = null;
         }
       };
       el.onerror = () => {
+        if (webAudioRef.current !== el) return;
         console.error('[Sounds] web audio error', el.error);
         setLoadState((s) => ({ ...s, [sound.id]: 'error' }));
         setPlayingId(null);
@@ -209,8 +210,10 @@ export default function SoundsScreen() {
       };
 
       el.play().then(() => {
+        if (webAudioRef.current !== el) return;
         setLoadState((s) => ({ ...s, [sound.id]: 'ready' }));
       }).catch((err: Error) => {
+        if (webAudioRef.current !== el) return;
         console.error('[Sounds] web play() rejected:', err);
         setLoadState((s) => ({ ...s, [sound.id]: 'error' }));
         setPlayingId(null);
@@ -269,8 +272,7 @@ export default function SoundsScreen() {
         throw new Error('No audio source');
       }
 
-      // createAsync with shouldPlay:true — expo-av queues playback internally
-      // so it fires even before the sound is fully buffered (no dropped call).
+      // The shared expo-audio service waits for loading before starting playback.
       const { sound: avSound } = await Audio.Sound.createAsync(
         source,
         {
@@ -285,6 +287,7 @@ export default function SoundsScreen() {
           // Non-looping sound finished — reset UI.
           if (status.didJustFinish && !isLoopingRef.current) {
             setPlayingId(null);
+            soundRef.current?.unloadAsync().catch(() => {});
             soundRef.current = null;
           }
         },
@@ -366,7 +369,7 @@ export default function SoundsScreen() {
       {/* Header */}
       <View style={[styles.header, { paddingTop: topPad + 8 }]}>
         <Pressable
-          onPress={async () => { await stopCurrent(); router.back(); }}
+          onPress={async () => { await stopCurrent(); router.canGoBack() ? router.back() : router.replace('/(tabs)/caregiver'); }}
           style={({ pressed }) => [styles.backBtn, { opacity: pressed ? 0.7 : 1 }]}
           accessibilityLabel="Go back"
         >
@@ -396,7 +399,7 @@ export default function SoundsScreen() {
             <Text style={styles.nowPlayingText} numberOfLines={1}>
               {t('Now Playing')}  ·  {playingSound.name}
             </Text>
-            <Pressable onPress={() => { stopCurrent(); setPlayingId(null); }} hitSlop={12}>
+            <Pressable onPress={() => { stopCurrent(); setPlayingId(null); }} hitSlop={12} accessibilityRole="button" accessibilityLabel="Stop sound">
               <Ionicons name="stop-circle-outline" size={22} color="#90A4AE" />
             </Pressable>
           </View>
@@ -475,6 +478,17 @@ export default function SoundsScreen() {
 }
 
 /* ── SoundCard ────────────────────────────────────────────────────────── */
+function disposeWebAudio(el: HTMLAudioElement | null) {
+  if (!el) return;
+  // Intentional stop/switch is not a load error. Detach handlers before reset.
+  el.oncanplay = null;
+  el.onended = null;
+  el.onerror = null;
+  el.pause();
+  el.removeAttribute('src');
+  el.load();
+}
+
 function SoundCard({
   sound, isPlaying, isRepeating, loadState, onPress, onRepeatPress, onLongPress,
 }: {
@@ -487,20 +501,24 @@ function SoundCard({
   onLongPress?: () => void;
 }) {
   return (
-    <Pressable
-      onPress={onPress}
-      onLongPress={onLongPress}
-      style={({ pressed }) => [
+    <View
+      style={[
         styles.card,
         isPlaying && { borderColor: sound.color + '88', backgroundColor: sound.color + '18' },
-        { opacity: pressed ? 0.85 : 1 },
       ]}
-      accessibilityLabel={`${isPlaying ? 'Stop' : 'Play'} ${sound.name}`}
-      accessibilityRole="button"
     >
       {/* Left accent bar */}
       <View style={[styles.cardAccent, { backgroundColor: sound.color }]} />
-
+      <Pressable
+        onPress={onPress}
+        onLongPress={onLongPress}
+        style={({ pressed }) => [
+          { flex: 1, flexDirection: 'row' as const, alignItems: 'center' as const, gap: 14 },
+          { opacity: pressed ? 0.85 : 1 },
+        ]}
+        accessibilityLabel={`${isPlaying ? 'Stop' : 'Play'} ${sound.name}`}
+        accessibilityRole="button"
+      >
       {/* Icon */}
       <View style={[styles.cardIconWrap, { backgroundColor: sound.color + '22' }]}>
         <Ionicons name={sound.icon as any} size={28} color={sound.color} />
@@ -514,21 +532,6 @@ function SoundCard({
           <Text style={styles.cardError}>⚠ Unavailable</Text>
         )}
       </View>
-
-      {/* Repeat toggle */}
-      <Pressable
-        onPress={(e) => { e.stopPropagation?.(); onRepeatPress(); }}
-        hitSlop={10}
-        style={styles.repeatBtn}
-        accessibilityLabel={isRepeating ? 'Turn off repeat' : 'Turn on repeat'}
-        accessibilityRole="button"
-      >
-        <Ionicons
-          name="repeat"
-          size={18}
-          color={isRepeating ? sound.color : '#2E4155'}
-        />
-      </Pressable>
 
       {/* Play / pause */}
       <View style={styles.cardAction}>
@@ -551,7 +554,18 @@ function SoundCard({
           <Text style={styles.customBadgeText}>MY</Text>
         </View>
       )}
-    </Pressable>
+      </Pressable>
+      {/* A sibling control, never a button inside the playback button. */}
+      <Pressable
+        onPress={onRepeatPress}
+        hitSlop={10}
+        style={styles.repeatBtn}
+        accessibilityLabel={isRepeating ? 'Turn off repeat' : 'Turn on repeat'}
+        accessibilityRole="button"
+      >
+        <Ionicons name="repeat" size={18} color={isRepeating ? sound.color : '#2E4155'} />
+      </Pressable>
+    </View>
   );
 }
 

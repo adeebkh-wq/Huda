@@ -10,15 +10,12 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
-import { useAuth, useUser } from '@clerk/expo';
 import { Ionicons } from '@/components/IoniconsSVG';
 import * as Haptics from 'expo-haptics';
 import { useColors } from '@/hooks/useColors';
 import { useApp } from '@/context/AppContext';
 import { useCaregiver } from '@/context/CaregiverContext';
 import { translateLabel } from '@/data/translations';
-import { clearAuthCache } from '@/context/OfflineAuthContext';
-import { useLocalAdmin } from '@/context/LocalAdminContext';
 
 export default function CaregiverDashboard() {
   const colors = useColors();
@@ -26,9 +23,6 @@ export default function CaregiverDashboard() {
   const { boards, usageStats, appLanguage } = useApp();
   const t = (key: string) => translateLabel(key, appLanguage);
   const { lock, emotionHistory } = useCaregiver();
-  const { signOut } = useAuth();
-  const { user } = useUser();
-  const { isLocalAdminSignedIn, localAdminName, signOutLocalAdmin } = useLocalAdmin();
   const topPad = Platform.OS === 'web' ? Math.max(insets.top, 67) : insets.top;
   const bottomPad = Platform.OS === 'web' ? 34 : insets.bottom;
 
@@ -52,18 +46,6 @@ export default function CaregiverDashboard() {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning).catch(() => {});
     lock();
     router.back();
-  };
-
-  const handleSignOut = async () => {
-    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning).catch(() => {});
-    if (isLocalAdminSignedIn) {
-      await signOutLocalAdmin();
-      return;
-    }
-    await clearAuthCache();
-    await signOut();
-    // Do NOT call router.replace here — (tabs)/_layout.tsx's <Redirect href="/" />
-    // fires automatically once isSignedIn becomes false, avoiding double-navigate.
   };
 
   return (
@@ -91,32 +73,20 @@ export default function CaregiverDashboard() {
         contentContainerStyle={[styles.content, { paddingBottom: bottomPad + 20 }]}
         showsVerticalScrollIndicator={false}
       >
-        {/* Account row */}
-        {(user || isLocalAdminSignedIn) && (
+        {/* Device-only caregiver information */}
           <View style={[styles.accountCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
             <View style={[styles.accountAvatar, { backgroundColor: colors.primary + '22' }]}>
               <Ionicons name="person" size={20} color={colors.primary} />
             </View>
             <View style={{ flex: 1 }}>
               <Text style={[styles.accountEmail, { color: colors.foreground }]} numberOfLines={1}>
-                {isLocalAdminSignedIn
-                  ? localAdminName ?? 'Local Caregiver'
-                  : user?.primaryEmailAddress?.emailAddress ?? 'Caregiver Account'}
+                {t('Caregiver Mode')}
               </Text>
               <Text style={[styles.accountSub, { color: colors.mutedForeground }]}>
-                {isLocalAdminSignedIn
-                  ? 'Device-only account · no email required'
-                  : 'Cloud caregiver account'}
+                No account required · data stays on this device
               </Text>
             </View>
-            <Pressable
-              onPress={handleSignOut}
-              style={({ pressed }) => [styles.signOutBtn, { opacity: pressed ? 0.7 : 1 }]}
-            >
-              <Ionicons name="log-out-outline" size={18} color={colors.mutedForeground} />
-            </Pressable>
           </View>
-        )}
 
         {/* Nav Cards */}
         <View style={styles.navGrid}>
@@ -158,6 +128,14 @@ export default function CaregiverDashboard() {
             sub={t('Signs, strengths & more')}
             color="#E05C6A"
             onPress={() => router.push('/(tabs)/caregiver/autism')}
+            colors={colors}
+          />
+          <NavCard
+            icon="play"
+            label="Therapy Guide"
+            sub="Offline videos & references"
+            color="#2A9D8F"
+            onPress={() => router.push('/(tabs)/caregiver/therapy')}
             colors={colors}
           />
         </View>

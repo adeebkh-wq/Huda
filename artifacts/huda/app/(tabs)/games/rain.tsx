@@ -232,7 +232,7 @@ function RainGameInner() {
     <View style={styles.container}>
       <View style={[styles.header, { paddingTop: topPad + 8 }]}>
         <Pressable
-          onPress={() => router.back()}
+          onPress={() => router.canGoBack() ? router.back() : router.replace('/(tabs)/games')}
           style={({ pressed }) => [styles.back, { opacity: pressed ? 0.6 : 1 }]}
           accessibilityLabel="Back"
         >
@@ -251,7 +251,7 @@ function RainGameInner() {
       <TouchableWithoutFeedback
         onPress={e => spawnRipple(e.nativeEvent.locationX, e.nativeEvent.locationY)}
       >
-        <View style={StyleSheet.absoluteFillObject}>
+        <View style={StyleSheet.absoluteFill}>
           {/* Falling drops */}
           {drops.map(d => (
             <Animated.View

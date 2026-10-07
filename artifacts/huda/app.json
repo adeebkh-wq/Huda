@@ -7,12 +7,6 @@
     "icon": "./assets/images/icon.png",
     "scheme": "huda",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
-    "splash": {
-      "image": "./assets/images/icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
     "ios": {
       "supportsTablet": true,
       "requireFullScreen": false,
@@ -26,9 +20,6 @@
       },
       "package": "com.adeebfareeza.huda",
       "versionCode": 24,
-      "compileSdkVersion": 35,
-      "targetSdkVersion": 35,
-      "minSdkVersion": 23,
       "permissions": [
         "android.permission.VIBRATE",
         "android.permission.RECORD_AUDIO",
@@ -47,8 +38,7 @@
             "android.intent.category.DEFAULT"
           ]
         }
-      ],
-      "edgeToEdge": true
+      ]
     },
     "web": {
       "favicon": "./assets/images/icon.png",
@@ -62,8 +52,19 @@
         }
       ],
       "expo-font",
+      "expo-asset",
+      "expo-secure-store",
       "expo-web-browser",
-      "expo-av",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/icon.png",
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff"
+        }
+      ],
+      "expo-audio",
+      "expo-video",
       [
         "expo-build-properties",
         {

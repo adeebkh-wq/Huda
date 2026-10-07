@@ -36,7 +36,7 @@ export function BoardTabs() {
               },
             ]}
             accessibilityRole="tab"
-            accessibilitySelected={isActive}
+            accessibilityState={{ selected: isActive }}
             accessibilityLabel={tab.name}
           >
             <Ionicons
