@@ -58,6 +58,10 @@ jobs:
           pnpm run typecheck
           pnpm exec expo install --check
 
+      - name: Check Android JavaScript and offline assets before native compilation
+        working-directory: artifacts/huda
+        run: pnpm exec expo export --platform android --max-workers 2 --output-dir "$RUNNER_TEMP/huda-bundle-check"
+
       - name: Set build version
         env:
           REQUESTED_VERSION_CODE: ${{ inputs.version_code }}
