@@ -16,6 +16,7 @@ import { useColors } from '@/hooks/useColors';
 import { useApp } from '@/context/AppContext';
 import { useCaregiver } from '@/context/CaregiverContext';
 import { translateLabel } from '@/data/translations';
+import { HOW_TO_GUIDE } from '@/data/howToGuide';
 
 export default function CaregiverDashboard() {
   const colors = useColors();
@@ -91,6 +92,14 @@ export default function CaregiverDashboard() {
         {/* Nav Cards */}
         <View style={styles.navGrid}>
           <NavCard
+            icon="information-circle-outline"
+            label={HOW_TO_GUIDE[appLanguage].title}
+            sub={HOW_TO_GUIDE[appLanguage].navSubtitle}
+            color={colors.primary}
+            onPress={() => router.push('/(tabs)/caregiver/how-to-use')}
+            colors={colors}
+          />
+          <NavCard
             icon="settings-outline"
             label={t('Settings')}
             sub={t('TTS, font, display')}
@@ -132,8 +141,8 @@ export default function CaregiverDashboard() {
           />
           <NavCard
             icon="play"
-            label="Therapy Guide"
-            sub="Offline videos & references"
+            label={t('Therapy Guide')}
+            sub={t('Offline videos & references')}
             color="#2A9D8F"
             onPress={() => router.push('/(tabs)/caregiver/therapy')}
             colors={colors}
