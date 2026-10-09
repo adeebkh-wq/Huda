@@ -27,7 +27,7 @@ import { CustomTileModal } from '@/components/CustomTileModal';
 import type { Tile } from '@/data/defaultBoards';
 
 // Stylish app logo with coloured letters + a tiny speech bubble badge
-function HudaLogo() {
+function HudaAACLogo() {
   const letters = [
     { char: 'H', color: '#2A9D8F' },
     { char: 'u', color: '#C98A1A' },
@@ -44,6 +44,7 @@ function HudaLogo() {
           <Text key={char} style={[logo.char, { color }]}>{char}</Text>
         ))}
       </View>
+      <Text style={logo.aac}>AAC</Text>
     </View>
   );
 }
@@ -53,6 +54,7 @@ const logo = StyleSheet.create({
   bubble:  { backgroundColor: '#2A9D8F', borderRadius: 8, padding: 4, marginBottom: 2 },
   letters: { flexDirection: 'row' },
   char:    { fontSize: 26, fontWeight: '800', fontFamily: 'Inter_700Bold', letterSpacing: -0.5 },
+  aac:      { color: '#527287', fontSize: 12, fontWeight: '800', fontFamily: 'Inter_700Bold', marginLeft: 1, marginTop: 8 },
 });
 
 export default function HomeScreen() {
@@ -136,7 +138,7 @@ export default function HomeScreen() {
 
         {/* Logo centred between left and right columns */}
         <View style={styles.headerLogoWrap} pointerEvents="none">
-          <HudaLogo />
+          <HudaAACLogo />
         </View>
 
         <View style={styles.headerRight}>

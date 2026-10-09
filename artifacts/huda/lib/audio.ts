@@ -1,5 +1,5 @@
 /**
- * Huda's small audio service, backed by SDK 57 expo-audio.
+ * Huda AAC's small audio service, backed by SDK 57 expo-audio.
  * Keeps recording/playback ownership explicit for the existing imperative UI.
  * There is no dependency on the removed native AV module.
  */

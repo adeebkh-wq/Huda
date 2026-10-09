@@ -67,7 +67,7 @@ export function CustomTileModal({ visible, tile, boardId, pixabayKey, onSave, on
       try {
         setImageUri(await persistTileImage(result.assets[0].uri, result.assets[0].mimeType));
       } catch {
-        Alert.alert('Picture not saved', 'Huda could not save that picture. Please choose another one.');
+        Alert.alert('Picture not saved', 'Huda AAC could not save that picture. Please choose another one.');
       }
     }
   };
@@ -84,7 +84,7 @@ export function CustomTileModal({ visible, tile, boardId, pixabayKey, onSave, on
       try {
         setImageUri(await persistTileImage(result.assets[0].uri, result.assets[0].mimeType));
       } catch {
-        Alert.alert('Picture not saved', 'Huda could not save that picture. Please take another photo.');
+        Alert.alert('Picture not saved', 'Huda AAC could not save that picture. Please take another photo.');
       }
     }
   };

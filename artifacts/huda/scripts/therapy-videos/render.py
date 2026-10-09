@@ -1,4 +1,4 @@
-"""Render Huda's original, captioned education assets; no third-party footage.
+"""Render Huda AAC's original, captioned education assets; no third-party footage.
 
 Requires the workspace's ffmpeg and ffprobe. Run from any working directory.
 The screenplay is data/therapy-lessons.json; captions are part of the MP4.
@@ -94,7 +94,7 @@ def diagram(tmp, prefix, visual, start, end, accent):
             text(tmp, prefix + "purpose", "LEARN • ASK • REVIEW", 67, 415, 25, accent, active, True),
             text(tmp, prefix + "notcure", "No cure claims.\nNo guaranteed outcomes.", 69, 468, 23,
                  "0x1A1A2E", active),
-            text(tmp, prefix + "sources", "SOURCES & TRANSCRIPT IN HUDA", 66, 565, 18,
+            text(tmp, prefix + "sources", "SOURCES & TRANSCRIPT IN HUDA AAC", 66, 565, 18,
                  accent, reveal(1), True),
         ]
     else:
@@ -119,7 +119,7 @@ def render(lesson, color, tmp):
     duration = len(lesson["segments"]) * SHOT_SECONDS
     filters = [
         box(0, 0, W, 18, color),
-        text(tmp, "masthead", "HUDA  /  CAREGIVER LEARNING", 32, 42, 19, color, bold=True),
+        text(tmp, "masthead", "HUDA AAC  /  CAREGIVER LEARNING", 32, 42, 19, color, bold=True),
         text(tmp, "category", lesson["category"].upper(), 32, 85, 16, color),
         text(tmp, "type", "ORIGINAL • CAPTIONED • EDUCATIONAL", 32, 876, 15, "0x6B7280"),
         text(tmp, "duration", "References and full transcript are in the app.", 32, 912, 16,

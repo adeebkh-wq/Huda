@@ -1,4 +1,4 @@
-import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
+import React, { useEffect, useImperativeHandle, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import type { LayoutChangeEvent } from 'react-native';
 import { useVideoPlayer, VideoView } from 'expo-video';
@@ -8,9 +8,6 @@ import { THERAPY_VIDEO_BACKGROUND, THERAPY_VIDEO_TEXT } from '@/data/therapyVide
 
 export interface TherapyVideoHandle {
   pause: () => void;
-  playFromStart: () => void;
-  setLooping: (looping: boolean) => void;
-  setPlaybackRate: (rate: number) => void;
 }
 
 interface Props {
@@ -18,8 +15,6 @@ interface Props {
   label: string;
   segments: TherapySubtitleSegment[];
   language: LanguageCode;
-  narrationProgress: number | null;
-  onPlayingChange: (isPlaying: boolean) => void;
   onError: () => void;
   ref: React.Ref<TherapyVideoHandle>;
 }
@@ -29,14 +24,11 @@ export function TherapyVideo({
   label,
   segments,
   language,
-  narrationProgress,
-  onPlayingChange,
   onError,
   ref,
 }: Props) {
   const [segmentIndex, setSegmentIndex] = useState(0);
   const [frameWidth, setFrameWidth] = useState(0);
-  const narrationProgressRef = useRef<number | null>(null);
 
   // The hook releases the player when a lesson is switched or this view unmounts.
   const player = useVideoPlayer(source, (p) => {
@@ -47,35 +39,7 @@ export function TherapyVideo({
 
   useImperativeHandle(ref, () => ({
     pause: () => player.pause(),
-    playFromStart: () => {
-      player.currentTime = 0;
-      player.play();
-    },
-    setLooping: (looping) => {
-      player.loop = looping;
-    },
-    setPlaybackRate: (rate) => {
-      player.playbackRate = rate;
-    },
   }), [player]);
-
-  useEffect(() => {
-    narrationProgressRef.current = narrationProgress;
-    if (narrationProgress === null || segments.length === 0) return;
-
-    const weights = segments.map(({ caption }) => Math.max(1, caption.trim().length));
-    const totalWeight = weights.reduce((total, weight) => total + weight, 0);
-    let position = Math.min(0.9999, Math.max(0, narrationProgress)) * totalWeight;
-    let nextIndex = weights.length - 1;
-    for (let index = 0; index < weights.length; index += 1) {
-      if (position < weights[index]) {
-        nextIndex = index;
-        break;
-      }
-      position -= weights[index];
-    }
-    setSegmentIndex((current) => current === nextIndex ? current : nextIndex);
-  }, [narrationProgress, segments]);
 
   useEffect(() => {
     if (player.status === 'error') onError();
@@ -87,19 +51,12 @@ export function TherapyVideo({
 
   useEffect(() => {
     const timeSubscription = player.addListener('timeUpdate', ({ currentTime }) => {
-      if (narrationProgressRef.current !== null) return;
       if (!Number.isFinite(currentTime) || segments.length === 0) return;
       const nextIndex = Math.min(segments.length - 1, Math.max(0, Math.floor(currentTime / 8)));
       setSegmentIndex((current) => current === nextIndex ? current : nextIndex);
     });
-    const playingSubscription = player.addListener('playingChange', ({ isPlaying }) => {
-      onPlayingChange(isPlaying);
-    });
-    return () => {
-      timeSubscription.remove();
-      playingSubscription.remove();
-    };
-  }, [player, segments.length, onPlayingChange]);
+    return () => timeSubscription.remove();
+  }, [player, segments.length]);
 
   const onFrameLayout = (event: LayoutChangeEvent) => {
     setFrameWidth(event.nativeEvent.layout.width);

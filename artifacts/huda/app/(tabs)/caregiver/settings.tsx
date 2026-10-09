@@ -283,7 +283,7 @@ export default function SettingsScreen() {
         {/* Kiosk Mode */}
         <Section title={t('Kiosk Mode')} icon="lock-closed-outline" colors={colors}>
           <Text style={[styles.sectionDesc, { color: colors.mutedForeground }]}>
-            Locks the device to Huda so children cannot leave the app. A caregiver PIN is required to exit.
+            Locks the device to Huda AAC so children cannot leave the app. A caregiver PIN is required to exit.
           </Text>
           <ToggleRow
             label={t('Enable Kiosk Mode')}
@@ -300,29 +300,29 @@ export default function SettingsScreen() {
                 <Text style={[styles.guidedAccessBody, { color: colors.mutedForeground }]}>
                   1. Open Settings → Accessibility → Guided Access{'\n'}
                   2. Turn on Guided Access and set a passcode{'\n'}
-                  3. In Huda, triple-click the side button to start a session
+                  3. In Huda AAC, triple-click the side button to start a session
                 </Text>
               </View>
             </View>
           )}
         </Section>
 
-        {/* Support Huda */}
-        <Section title="Support Huda 💚" icon="heart-outline" colors={colors}>
+        {/* Support Huda AAC */}
+        <Section title="Support Huda AAC 💚" icon="heart-outline" colors={colors}>
           <Text style={[styles.supportHeading, { color: colors.foreground }]}>
-            Why is Huda free?
+            Why is Huda AAC free?
           </Text>
           <Text style={[styles.sectionDesc, { color: colors.mutedForeground }]}>
-            Every child deserves a voice — regardless of their family's budget. Huda was built
+            Every child deserves a voice — regardless of their family's budget. Huda AAC was built
             by a solo developer who believes AAC tools should be available to every family. It
             will always be free for every child, every family, everywhere.
           </Text>
           <Text style={[styles.supportHeading, { color: colors.foreground, marginTop: 14 }]}>
-            Help keep Huda running
+            Help keep Huda AAC running
           </Text>
           <Text style={[styles.sectionDesc, { color: colors.mutedForeground }]}>
-            Building and maintaining Huda takes real time and real cost — servers, design,
-            accessibility research, and countless hours of care. If Huda has helped your
+            Building and maintaining Huda AAC takes real time and real cost — servers, design,
+            accessibility research, and countless hours of care. If Huda AAC has helped your
             child communicate, your support means the world and keeps this app growing for
             families everywhere.
           </Text>
@@ -358,7 +358,7 @@ export default function SettingsScreen() {
 
         <View style={styles.versionRow}>
           <Text style={[styles.versionText, { color: colors.mutedForeground }]}>
-            Huda v1.0.0 · Offline AAC
+            Huda AAC v1.0.0 · Offline AAC
           </Text>
         </View>
       </ScrollView>

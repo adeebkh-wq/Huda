@@ -63,7 +63,7 @@ const EN: AutismPageContent = {
       ...SECTION_META[2],
       title: 'Communication & Social Differences',
       items: ['Difficulty starting or maintaining conversations', 'Trouble understanding jokes, sarcasm, or figurative language', 'May not use gestures to communicate (pointing, waving)', 'Differences in tone, rhythm, or volume of speech', "Challenges understanding others' emotions or perspective", 'May prefer written or visual communication over spoken words', 'Some autistic children are non-speaking or minimally verbal — this does not reflect intelligence'],
-      body: 'AAC (Augmentative and Alternative Communication) tools — like picture boards, speech-generating devices, and apps like Huda — are widely used to support autistic individuals who communicate differently.',
+      body: 'AAC (Augmentative and Alternative Communication) tools — like picture boards, speech-generating devices, and apps like Huda AAC — are widely used to support autistic individuals who communicate differently.',
       source: 'Source: ASHA, CDC',
     },
     {
@@ -71,7 +71,7 @@ const EN: AutismPageContent = {
       title: 'Sensory Differences',
       body: 'Many autistic people process sensory information differently from neurotypical people. This is sometimes called sensory processing differences.\n\nThey may be hypersensitive (over-responsive) or hyposensitive (under-responsive) to:',
       items: ['Sound — certain noises feel painfully loud or impossible to filter out', 'Touch — clothing textures, hugs, or light brushing can feel overwhelming', 'Light — bright or flickering lights cause discomfort or distress', 'Taste & smell — strong reactions to certain foods or scents', 'Movement — seeking or avoiding spinning, swinging, or pressure'],
-      body2: "Sensory overload is real and can be exhausting. What looks like a behavioural outburst is often a sensory response. Creating a calm, predictable sensory environment — as Huda's Sensory Games aim to do — can make a meaningful difference.",
+      body2: "Sensory overload is real and can be exhausting. What looks like a behavioural outburst is often a sensory response. Creating a calm, predictable sensory environment — as Huda AAC's Sensory Games aim to do — can make a meaningful difference.",
       source: 'Source: Autism Speaks, STAR Institute',
     },
     {
@@ -121,7 +121,7 @@ const ES: AutismPageContent = {
       ...SECTION_META[2],
       title: 'Diferencias en comunicación y socialización',
       items: ['Dificultad para iniciar o mantener conversaciones', 'Dificultad para entender chistes, sarcasmo o lenguaje figurado', 'Puede que no use gestos para comunicarse (señalar, saludar)', 'Diferencias en el tono, ritmo o volumen del habla', 'Dificultad para comprender las emociones o perspectiva de otros', 'Puede preferir la comunicación escrita o visual sobre la oral', 'Algunos niños autistas no hablan o hablan muy poco — esto no refleja su inteligencia'],
-      body: 'Las herramientas de CAA (Comunicación Aumentativa y Alternativa) — como tableros de imágenes, dispositivos generadores de voz y apps como Huda — se usan ampliamente para apoyar a personas autistas que se comunican de manera diferente.',
+      body: 'Las herramientas de CAA (Comunicación Aumentativa y Alternativa) — como tableros de imágenes, dispositivos generadores de voz y apps como Huda AAC — se usan ampliamente para apoyar a personas autistas que se comunican de manera diferente.',
       source: 'Fuente: ASHA, CDC',
     },
     {
@@ -129,7 +129,7 @@ const ES: AutismPageContent = {
       title: 'Diferencias sensoriales',
       body: 'Muchas personas autistas procesan la información sensorial de manera diferente a las personas neurotípicas. Esto a veces se llama diferencias en el procesamiento sensorial.\n\nPueden ser hipersensibles (sobrereactivos) o hiposensibles (subreactivos) a:',
       items: ['Sonido — ciertos ruidos se sienten dolorosamente fuertes o imposibles de filtrar', 'Tacto — texturas de ropa, abrazos o roces leves pueden abrumar', 'Luz — las luces brillantes o parpadeantes causan malestar o angustia', 'Gusto y olfato — reacciones intensas ante ciertos alimentos u olores', 'Movimiento — buscar o evitar girar, columpiarse o la presión'],
-      body2: 'La sobrecarga sensorial es real y puede ser agotadora. Lo que parece un arrebato conductual a menudo es una respuesta sensorial. Crear un entorno sensorial tranquilo y predecible — como lo intentan los Juegos Sensoriales de Huda — puede marcar una diferencia significativa.',
+      body2: 'La sobrecarga sensorial es real y puede ser agotadora. Lo que parece un arrebato conductual a menudo es una respuesta sensorial. Crear un entorno sensorial tranquilo y predecible — como lo intentan los Juegos Sensoriales de Huda AAC — puede marcar una diferencia significativa.',
       source: 'Fuente: Autism Speaks, STAR Institute',
     },
     {
@@ -179,7 +179,7 @@ const FR: AutismPageContent = {
       ...SECTION_META[2],
       title: 'Différences de communication et de socialisation',
       items: ["Difficulté à initier ou maintenir des conversations", "Difficulté à comprendre les blagues, le sarcasme ou le langage figuré", "Peut ne pas utiliser de gestes pour communiquer (pointer, saluer)", "Différences dans le ton, le rythme ou le volume de la parole", "Difficultés à comprendre les émotions ou la perspective des autres", "Peut préférer la communication écrite ou visuelle à la parole", "Certains enfants autistes ne parlent pas ou très peu — cela ne reflète pas leur intelligence"],
-      body: "Les outils de CAA (Communication Augmentative et Alternative) — comme les tableaux d'images, les appareils de génération de parole et des applications comme Huda — sont largement utilisés pour soutenir les personnes autistes qui communiquent différemment.",
+      body: "Les outils de CAA (Communication Augmentative et Alternative) — comme les tableaux d'images, les appareils de génération de parole et des applications comme Huda AAC — sont largement utilisés pour soutenir les personnes autistes qui communiquent différemment.",
       source: 'Source : ASHA, CDC',
     },
     {
@@ -187,7 +187,7 @@ const FR: AutismPageContent = {
       title: 'Différences sensorielles',
       body: "De nombreuses personnes autistes traitent les informations sensorielles différemment des personnes neurotypiques. C'est parfois appelé différences de traitement sensoriel.\n\nElles peuvent être hypersensibles (sur-réactives) ou hyposensibles (sous-réactives) à :",
       items: ["Son — certains bruits semblent douloureusement forts ou impossibles à filtrer", "Toucher — les textures des vêtements, les câlins ou les effleurements peuvent être accablants", "Lumière — les lumières vives ou clignotantes causent de l'inconfort ou de la détresse", "Goût & odorat — réactions fortes à certains aliments ou odeurs", "Mouvement — chercher ou éviter de tourner, se balancer ou la pression"],
-      body2: "La surcharge sensorielle est réelle et peut être épuisante. Ce qui ressemble à une crise comportementale est souvent une réponse sensorielle. Créer un environnement sensoriel calme et prévisible — comme le font les Jeux Sensoriels de Huda — peut faire une différence significative.",
+      body2: "La surcharge sensorielle est réelle et peut être épuisante. Ce qui ressemble à une crise comportementale est souvent une réponse sensorielle. Créer un environnement sensoriel calme et prévisible — comme le font les Jeux Sensoriels de Huda AAC — peut faire une différence significative.",
       source: 'Source : Autism Speaks, STAR Institute',
     },
     {
@@ -295,7 +295,7 @@ const DE: AutismPageContent = {
       ...SECTION_META[2],
       title: 'Kommunikations- & Sozialunterschiede',
       items: ['Schwierigkeiten, Gespräche zu beginnen oder aufrechtzuerhalten', 'Schwierigkeiten beim Verstehen von Witzen, Sarkasmus oder bildlicher Sprache', 'Verwendet möglicherweise keine Gesten zur Kommunikation', 'Unterschiede im Ton, Rhythmus oder Volumen der Sprache', 'Schwierigkeiten beim Verstehen der Gefühle oder Perspektive anderer', 'Bevorzugt möglicherweise schriftliche oder visuelle Kommunikation', 'Manche autistischen Kinder sprechen nicht oder kaum — das spiegelt nicht ihre Intelligenz wider'],
-      body: 'AAC-Tools (Unterstützte und Alternative Kommunikation) — wie Bilderboards, spracherzeugende Geräte und Apps wie Huda — werden häufig eingesetzt, um autistischen Menschen zu helfen, die anders kommunizieren.',
+      body: 'AAC-Tools (Unterstützte und Alternative Kommunikation) — wie Bilderboards, spracherzeugende Geräte und Apps wie Huda AAC — werden häufig eingesetzt, um autistischen Menschen zu helfen, die anders kommunizieren.',
       source: 'Quelle: ASHA, CDC',
     },
     {
@@ -303,7 +303,7 @@ const DE: AutismPageContent = {
       title: 'Sensorische Unterschiede',
       body: 'Viele autistische Menschen verarbeiten sensorische Informationen anders als neurotypische Menschen. Dies wird manchmal als sensorische Verarbeitungsunterschiede bezeichnet.\n\nSie können hypersensibel (überreaktiv) oder hyposensibel (unterreaktiv) sein gegenüber:',
       items: ['Geräusch — bestimmte Geräusche fühlen sich schmerzhaft laut an oder sind unmöglich zu filtern', 'Berührung — Kleidungstexturen, Umarmungen oder leichte Berührungen können überwältigend sein', 'Licht — helle oder flackernde Lichter verursachen Unbehagen oder Belastung', 'Geschmack & Geruch — starke Reaktionen auf bestimmte Lebensmittel oder Gerüche', 'Bewegung — Suche nach oder Vermeidung von Drehen, Schaukeln oder Druck'],
-      body2: 'Sensorische Überladung ist real und kann erschöpfend sein. Was wie ein Verhaltensausbruch aussieht, ist oft eine sensorische Reaktion. Eine ruhige, vorhersehbare sensorische Umgebung zu schaffen — wie Hudas Sensorische Spiele es anstreben — kann einen bedeutenden Unterschied machen.',
+      body2: 'Sensorische Überladung ist real und kann erschöpfend sein. Was wie ein Verhaltensausbruch aussieht, ist oft eine sensorische Reaktion. Eine ruhige, vorhersehbare sensorische Umgebung zu schaffen — wie es die Sensorischen Spiele von Huda AAC anstreben — kann einen bedeutenden Unterschied machen.',
       source: 'Quelle: Autism Speaks, STAR Institute',
     },
     {
@@ -353,7 +353,7 @@ const PT: AutismPageContent = {
       ...SECTION_META[2],
       title: 'Diferenças de comunicação e socialização',
       items: ['Dificuldade em iniciar ou manter conversas', 'Dificuldade em entender piadas, sarcasmo ou linguagem figurada', 'Pode não usar gestos para se comunicar (apontar, acenar)', 'Diferenças no tom, ritmo ou volume da fala', 'Dificuldades em entender as emoções ou perspectiva dos outros', 'Pode preferir comunicação escrita ou visual à falada', 'Algumas crianças autistas não falam ou falam muito pouco — isso não reflete inteligência'],
-      body: 'Ferramentas de CAA (Comunicação Aumentativa e Alternativa) — como quadros de imagens, dispositivos geradores de fala e apps como o Huda — são amplamente usados para apoiar autistas que se comunicam de forma diferente.',
+      body: 'Ferramentas de CAA (Comunicação Aumentativa e Alternativa) — como quadros de imagens, dispositivos geradores de fala e apps como o Huda AAC — são amplamente usados para apoiar autistas que se comunicam de forma diferente.',
       source: 'Fonte: ASHA, CDC',
     },
     {
@@ -361,7 +361,7 @@ const PT: AutismPageContent = {
       title: 'Diferenças sensoriais',
       body: 'Muitos autistas processam informações sensoriais de forma diferente das pessoas neurotípicas. Isso às vezes é chamado de diferenças de processamento sensorial.\n\nPodem ser hipersensíveis (sobre-responsivos) ou hiposensíveis (sub-responsivos) a:',
       items: ['Som — certos ruídos parecem dolorosamente altos ou impossíveis de filtrar', 'Toque — texturas de roupas, abraços ou toques leves podem ser avassaladores', 'Luz — luzes brilhantes ou piscantes causam desconforto ou angústia', 'Gosto & cheiro — reações fortes a certos alimentos ou odores', 'Movimento — buscar ou evitar girar, balançar ou pressão'],
-      body2: 'A sobrecarga sensorial é real e pode ser exaustiva. O que parece uma crise comportamental muitas vezes é uma resposta sensorial. Criar um ambiente sensorial calmo e previsível — como os Jogos Sensoriais do Huda buscam fazer — pode fazer uma diferença significativa.',
+      body2: 'A sobrecarga sensorial é real e pode ser exaustiva. O que parece uma crise comportamental muitas vezes é uma resposta sensorial. Criar um ambiente sensorial calmo e previsível — como os Jogos Sensoriais do Huda AAC buscam fazer — pode fazer uma diferença significativa.',
       source: 'Fonte: Autism Speaks, STAR Institute',
     },
     {
@@ -411,7 +411,7 @@ const ZH: AutismPageContent = {
       ...SECTION_META[2],
       title: '沟通与社交差异',
       items: ['难以开始或维持对话', '难以理解笑话、讽刺或比喻语言', '可能不使用手势沟通（指向、挥手）', '说话的语调、节奏或音量有所不同', '难以理解他人的情绪或观点', '可能更喜欢书面或视觉沟通而非口头表达', '一些自闭症儿童不说话或说话很少——这并不反映智力水平'],
-      body: 'AAC（辅助和替代沟通）工具——如图片板、语音生成设备和Huda等应用——被广泛用于支持以不同方式沟通的自闭症人士。',
+      body: 'AAC（辅助和替代沟通）工具——如图片板、语音生成设备和Huda AAC等应用——被广泛用于支持以不同方式沟通的自闭症人士。',
       source: '来源：ASHA、CDC',
     },
     {
@@ -419,7 +419,7 @@ const ZH: AutismPageContent = {
       title: '感觉差异',
       body: '许多自闭症人士处理感觉信息的方式与神经典型人士不同。这有时被称为感觉处理差异。\n\n他们可能对以下方面过度敏感（反应过度）或不足敏感（反应不足）：',
       items: ['声音——某些噪音感觉痛苦地响亮或无法过滤', '触感——衣物质地、拥抱或轻触可能让人不堪重负', '光线——明亮或闪烁的灯光引起不适或困扰', '味道和气味——对某些食物或气味有强烈反应', '动作——寻求或回避旋转、摇摆或压力'],
-      body2: '感觉超载是真实存在的，会让人精疲力竭。看起来像行为爆发的情况往往是感觉反应。创造一个平静、可预测的感觉环境——正如Huda感觉游戏所努力做到的——可以产生重要的影响。',
+      body2: '感觉超载是真实存在的，会让人精疲力竭。看起来像行为爆发的情况往往是感觉反应。创造一个平静、可预测的感觉环境——正如Huda AAC的感觉游戏所努力做到的——可以产生重要的影响。',
       source: '来源：Autism Speaks、STAR Institute',
     },
     {

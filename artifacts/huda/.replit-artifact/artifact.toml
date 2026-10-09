@@ -1,6 +1,6 @@
 kind = "mobile"
 previewPath = "/"
-title = "Huda — AAC App"
+title = "Huda AAC"
 version = "1.0.0"
 id = "artifacts/huda"
 router = "expo-domain"

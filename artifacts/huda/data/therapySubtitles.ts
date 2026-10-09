@@ -303,71 +303,6 @@ const translatedSubtitles: Record<Exclude<LanguageCode, 'en'>, TranslatedLessons
   },
 };
 
-const controlCopy: Record<LanguageCode, {
-  listen: string;
-  stop: string;
-  subtitles: string;
-  voiceNote: string;
-  playbackError: string;
-}> = {
-  en: {
-    listen: 'Play narration',
-    stop: 'Stop narration',
-    subtitles: 'Subtitles',
-    voiceNote: 'Synthetic narration is included in the app and plays offline.',
-    playbackError: 'The offline narration could not be played. Please try again.',
-  },
-  es: {
-    listen: 'Reproducir narración en español',
-    stop: 'Detener narración',
-    subtitles: 'Subtítulos',
-    voiceNote: 'La narración sintética está incluida en la app y se reproduce sin conexión.',
-    playbackError: 'No se pudo reproducir la narración sin conexión. Inténtalo de nuevo.',
-  },
-  fr: {
-    listen: 'Lire la narration en français',
-    stop: 'Arrêter la narration',
-    subtitles: 'Sous-titres',
-    voiceNote: 'La narration synthétique est incluse dans l’application et se lit hors ligne.',
-    playbackError: 'Impossible de lire la narration hors ligne. Réessayez.',
-  },
-  ar: {
-    listen: 'تشغيل السرد بالعربية',
-    stop: 'إيقاف السرد',
-    subtitles: 'الترجمة النصية',
-    voiceNote: 'يتضمن التطبيق سردًا صوتيًا اصطناعيًا يمكن تشغيله دون اتصال.',
-    playbackError: 'تعذّر تشغيل السرد الصوتي دون اتصال. حاول مرة أخرى.',
-  },
-  de: {
-    listen: 'Deutsche Erzählung abspielen',
-    stop: 'Erzählung stoppen',
-    subtitles: 'Untertitel',
-    voiceNote: 'Die synthetische Erzählung ist in der App enthalten und offline abspielbar.',
-    playbackError: 'Die Offline-Erzählung konnte nicht abgespielt werden. Bitte erneut versuchen.',
-  },
-  pt: {
-    listen: 'Reproduzir narração em português',
-    stop: 'Parar narração',
-    subtitles: 'Legendas',
-    voiceNote: 'A narração sintética está incluída no app e pode ser reproduzida offline.',
-    playbackError: 'Não foi possível reproduzir a narração offline. Tente novamente.',
-  },
-  zh: {
-    listen: '播放中文旁白',
-    stop: '停止旁白',
-    subtitles: '字幕',
-    voiceNote: '应用内置合成旁白，可离线播放。',
-    playbackError: '无法播放离线旁白，请重试。',
-  },
-  hi: {
-    listen: 'हिंदी वर्णन चलाएँ',
-    stop: 'वर्णन रोकें',
-    subtitles: 'उपशीर्षक',
-    voiceNote: 'ऐप में सिंथेटिक वर्णन शामिल है और इसे ऑफ़लाइन चलाया जा सकता है।',
-    playbackError: 'ऑफ़लाइन वर्णन नहीं चल सका। फिर कोशिश करें।',
-  },
-};
-
 export function getTherapySubtitles(
   lessonId: string,
   language: LanguageCode,
@@ -377,8 +312,4 @@ export function getTherapySubtitles(
     ? undefined
     : translatedSubtitles[language][lessonId as LessonId];
   return translated ?? englishSegments.map(({ heading, caption }) => ({ heading, caption }));
-}
-
-export function getTherapyControlCopy(language: LanguageCode) {
-  return controlCopy[language];
 }

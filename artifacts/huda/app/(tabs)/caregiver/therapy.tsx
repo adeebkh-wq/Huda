@@ -2,17 +2,13 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { AppState, Linking, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router, useFocusEffect } from 'expo-router';
-import { Asset } from 'expo-asset';
-import * as FileSystem from 'expo-file-system/legacy';
-import type { AudioSource } from 'expo-audio';
 import { TherapyVideo } from '@/components/therapy/TherapyVideo';
 import type { TherapyVideoHandle } from '@/components/therapy/TherapyVideo';
 import { Ionicons } from '@/components/IoniconsSVG';
 import { useApp } from '@/context/AppContext';
 import { useColors } from '@/hooks/useColors';
 import { SUPPORTED_LANGUAGES, type LanguageCode } from '@/data/translations';
-import { getTherapyControlCopy, getTherapySubtitles } from '@/data/therapySubtitles';
-import { therapyNarrationAssets } from '@/data/therapyNarration';
+import { getTherapySubtitles } from '@/data/therapySubtitles';
 import {
   getTherapyGuideCopy,
   localizeTherapyLesson,
@@ -25,39 +21,6 @@ import {
   therapyDurationSeconds,
 } from '@/data/therapyLessons';
 import type { TherapyLesson, TherapyReference } from '@/data/therapyLessons';
-import { Audio } from '@/lib/audio';
-
-async function getPlayableNarrationSource(
-  bundledAsset: number,
-  language: LanguageCode,
-  lessonId: string,
-): Promise<AudioSource> {
-  if (Platform.OS === 'web') return bundledAsset;
-
-  const asset = Asset.fromModule(bundledAsset);
-  await asset.downloadAsync();
-  const cacheDirectory = FileSystem.cacheDirectory;
-  if (!cacheDirectory) throw new Error('Audio cache is unavailable.');
-
-  const cachePath = `${cacheDirectory}huda_therapy_narration_${language}_${lessonId}_${asset.hash ?? 'v1'}.mp3`;
-  const cached = await FileSystem.getInfoAsync(cachePath);
-  if (!cached.exists || (cached.size ?? 0) < 1024) {
-    if (cached.exists) await FileSystem.deleteAsync(cachePath, { idempotent: true });
-    if (asset.uri.startsWith('http')) {
-      await FileSystem.downloadAsync(asset.uri, cachePath);
-    } else if (asset.localUri) {
-      await FileSystem.copyAsync({ from: asset.localUri, to: cachePath });
-    } else {
-      throw new Error('Bundled narration could not be located.');
-    }
-  }
-
-  const verified = await FileSystem.getInfoAsync(cachePath);
-  if (!verified.exists || (verified.size ?? 0) < 1024) {
-    throw new Error('Bundled narration file is invalid.');
-  }
-  return { uri: cachePath };
-}
 
 export default function TherapyGuide() {
   const colors = useColors();
@@ -70,58 +33,14 @@ export default function TherapyGuide() {
   const [videoError, setVideoError] = useState(false);
   const [attempt, setAttempt] = useState(0);
   const [linkError, setLinkError] = useState(false);
-  const [narrationActive, setNarrationActive] = useState(false);
-  const [narrationError, setNarrationError] = useState<string | null>(null);
-  const [narrationProgress, setNarrationProgress] = useState<number | null>(null);
   const copy = getTherapyGuideCopy(appLanguage);
   const displayLesson = lesson ? localizeTherapyLesson(lesson, appLanguage) : null;
   const videoRef = useRef<TherapyVideoHandle>(null);
-  const narrationSoundRef = useRef<Audio.Sound | null>(null);
   const scrollRef = useRef<ScrollView>(null);
-  const narrationActiveRef = useRef(false);
-  const narrationRunRef = useRef(0);
-  const videoWasPlayingRef = useRef(false);
-
-  const finishNarration = useCallback((runId: number, pauseVideo: boolean) => {
-    if (runId !== narrationRunRef.current) return;
-    narrationRunRef.current += 1;
-    narrationActiveRef.current = false;
-    setNarrationActive(false);
-    setNarrationProgress(null);
-    videoRef.current?.setLooping(false);
-    videoRef.current?.setPlaybackRate(1);
-    const sound = narrationSoundRef.current;
-    narrationSoundRef.current = null;
-    if (sound) void sound.unloadAsync().catch(() => {});
-    if (pauseVideo) videoRef.current?.pause();
-  }, []);
-
-  const stopNarration = useCallback((pauseVideo: boolean) => {
-    narrationRunRef.current += 1;
-    narrationActiveRef.current = false;
-    setNarrationActive(false);
-    setNarrationProgress(null);
-    videoRef.current?.setLooping(false);
-    videoRef.current?.setPlaybackRate(1);
-    const sound = narrationSoundRef.current;
-    narrationSoundRef.current = null;
-    if (sound) void sound.unloadAsync().catch(() => {});
-    if (pauseVideo) videoRef.current?.pause();
-  }, []);
 
   const pause = useCallback(() => {
-    videoWasPlayingRef.current = false;
-    stopNarration(false);
     videoRef.current?.pause();
-  }, [stopNarration]);
-
-  const onVideoPlayingChange = useCallback((isPlaying: boolean) => {
-    const wasPlaying = videoWasPlayingRef.current;
-    videoWasPlayingRef.current = isPlaying;
-    if (wasPlaying && !isPlaying && narrationActiveRef.current) {
-      stopNarration(false);
-    }
-  }, [stopNarration]);
+  }, []);
 
   useFocusEffect(useCallback(() => pause, [pause]));
   useEffect(() => {
@@ -130,16 +49,11 @@ export default function TherapyGuide() {
     });
     return () => sub.remove();
   }, [pause]);
-  useEffect(() => {
-    if (narrationActiveRef.current) stopNarration(true);
-  }, [appLanguage, stopNarration]);
 
   const open = (id: string | null) => {
     pause();
-    videoWasPlayingRef.current = false;
     setVideoError(false);
     setLinkError(false);
-    setNarrationError(null);
     setAttempt(0);
     setLessonId(id);
     scrollRef.current?.scrollTo({ y: 0, animated: false });
@@ -155,82 +69,6 @@ export default function TherapyGuide() {
       setLinkError(true);
     }
   };
-
-  const toggleNarration = useCallback(async () => {
-    if (narrationActiveRef.current) {
-      stopNarration(true);
-      return;
-    }
-    if (!lesson) return;
-
-    setNarrationError(null);
-    const runId = narrationRunRef.current + 1;
-    narrationRunRef.current = runId;
-    narrationActiveRef.current = true;
-    setNarrationActive(true);
-
-    try {
-      await Audio.setAudioModeAsync({
-        allowsRecordingIOS: false,
-        playsInSilentModeIOS: true,
-        staysActiveInBackground: false,
-        shouldDuckAndroid: true,
-        playThroughEarpieceAndroid: false,
-      });
-
-      const source = await getPlayableNarrationSource(
-        therapyNarrationAssets[appLanguage][lesson.id as keyof typeof therapyNarrationAssets.en],
-        appLanguage,
-        lesson.id,
-      );
-      if (runId !== narrationRunRef.current) return;
-
-      const { sound } = await Audio.Sound.createAsync(
-        source,
-        { shouldPlay: false, volume: 1, rate: 1, shouldCorrectPitch: true },
-        (status) => {
-          if (runId !== narrationRunRef.current) return;
-          if (status.error) {
-            setNarrationError(getTherapyControlCopy(appLanguage).playbackError);
-            finishNarration(runId, true);
-            return;
-          }
-          if (!status.isLoaded) return;
-          if (status.didJustFinish) {
-            finishNarration(runId, true);
-            return;
-          }
-          if (status.duration > 0) {
-            const progress = Math.min(1, Math.max(0, status.currentTime / status.duration));
-            setNarrationProgress((current) => (
-              current !== null && Math.floor(current * 20) === Math.floor(progress * 20)
-                ? current
-                : progress
-            ));
-          }
-        },
-      );
-      if (runId !== narrationRunRef.current) {
-        await sound.unloadAsync();
-        return;
-      }
-
-      narrationSoundRef.current = sound;
-      const status = await sound.getStatusAsync();
-      const videoRate = status.duration > 0
-        ? Math.min(2, Math.max(0.5, therapyDurationSeconds / status.duration))
-        : 1;
-      videoRef.current?.setLooping(true);
-      videoRef.current?.setPlaybackRate(videoRate);
-      setNarrationProgress(0);
-      videoRef.current?.playFromStart();
-      await sound.playAsync();
-    } catch {
-      if (runId !== narrationRunRef.current) return;
-      setNarrationError(getTherapyControlCopy(appLanguage).playbackError);
-      finishNarration(runId, true);
-    }
-  }, [appLanguage, finishNarration, lesson, stopNarration]);
 
   const refs = lesson
     ? therapyReferences.filter((r) => lesson.referenceIds.includes(r.id))
@@ -297,11 +135,6 @@ export default function TherapyGuide() {
             attempt={attempt}
             videoError={videoError}
             setVideoError={setVideoError}
-            narrationActive={narrationActive}
-            narrationError={narrationError}
-            narrationProgress={narrationProgress}
-            onToggleNarration={toggleNarration}
-            onVideoPlayingChange={onVideoPlayingChange}
             retry={() => { setVideoError(false); setAttempt((a) => a + 1); }}
             openLink={openLink}
             linkError={linkError}
@@ -323,11 +156,6 @@ interface LessonDetailProps {
   attempt: number;
   videoError: boolean;
   setVideoError: (error: boolean) => void;
-  narrationActive: boolean;
-  narrationError: string | null;
-  narrationProgress: number | null;
-  onToggleNarration: () => void;
-  onVideoPlayingChange: (isPlaying: boolean) => void;
   retry: () => void;
   openLink: (url: string) => Promise<void>;
   linkError: boolean;
@@ -344,11 +172,6 @@ function LessonDetail({
   attempt,
   videoError,
   setVideoError,
-  narrationActive,
-  narrationError,
-  narrationProgress,
-  onToggleNarration,
-  onVideoPlayingChange,
   retry,
   openLink,
   linkError,
@@ -359,11 +182,9 @@ function LessonDetail({
   const localizedLesson = localizeTherapyLesson(lesson, appLanguage);
   const isArabic = appLanguage === 'ar';
   const subtitles = getTherapySubtitles(lesson.id, appLanguage, lesson.segments);
-  const audioCopy = getTherapyControlCopy(appLanguage);
   const subtitleLanguage = SUPPORTED_LANGUAGES.find(({ code }) => code === appLanguage)?.native ?? 'English';
   const durationLabel = copy.durationTemplate
     .replace('{seconds}', String(therapyDurationSeconds))
-    .replace('{subtitles}', audioCopy.subtitles)
     .replace('{language}', subtitleLanguage);
   const H = (t: string) => (
     <Text style={[styles.h, { color: colors.foreground }, isArabic && styles.rtlText]} accessibilityRole="header">{t}</Text>
@@ -393,8 +214,6 @@ function LessonDetail({
             source={therapyMedia[lesson.id]}
             segments={subtitles}
             language={appLanguage}
-            narrationProgress={narrationActive ? narrationProgress : null}
-            onPlayingChange={onVideoPlayingChange}
             onError={() => setVideoError(true)}
             label={`${copy.videoLabel} ${localizedLesson.title}`}
           />
@@ -403,48 +222,6 @@ function LessonDetail({
       <Text style={[styles.small, { color: colors.mutedForeground }]}>
         {durationLabel}
       </Text>
-      <Pressable
-        onPress={onToggleNarration}
-        accessibilityRole="button"
-        accessibilityLabel={narrationActive ? audioCopy.stop : audioCopy.listen}
-        accessibilityState={{ selected: narrationActive }}
-        style={({ pressed }) => [
-          styles.audioButton,
-          {
-            backgroundColor: narrationActive ? colors.secondary : colors.primary,
-            borderColor: colors.border,
-            opacity: pressed ? 0.78 : 1,
-          },
-        ]}
-      >
-        <Ionicons
-          name={narrationActive ? 'stop-circle-outline' : 'volume-high-outline'}
-          size={20}
-          color={narrationActive ? colors.foreground : colors.primaryForeground}
-        />
-        <Text style={[
-          styles.btnText,
-          { color: narrationActive ? colors.foreground : colors.primaryForeground },
-          isArabic && styles.rtlText,
-        ]}>
-          {narrationActive ? audioCopy.stop : audioCopy.listen}
-        </Text>
-      </Pressable>
-      <Text style={[
-        styles.small,
-        { color: colors.mutedForeground },
-        isArabic && styles.rtlText,
-      ]}>
-        {audioCopy.voiceNote}
-      </Text>
-      {narrationError && (
-        <Text
-          style={[styles.body, { color: colors.destructive }]}
-          accessibilityLiveRegion="polite"
-        >
-          {narrationError}
-        </Text>
-      )}
 
       {H(copy.possibleBenefits)}
       <View style={box}>
@@ -538,7 +315,6 @@ const styles = StyleSheet.create({
   video: { width: '100%', height: '100%' },
   videoErr: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 12, padding: 20 },
   btn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, minHeight: 48, paddingHorizontal: 16, borderRadius: 12 },
-  audioButton: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, minHeight: 48, paddingHorizontal: 16, borderRadius: 12, borderWidth: 1 },
   rtlText: { textAlign: 'right', writingDirection: 'rtl' },
   btnText: { fontSize: 14, fontFamily: 'Inter_600SemiBold' },
 });

@@ -1,10 +1,10 @@
-# Huda original therapy explainers
+# Huda AAC original therapy explainers
 
 ## Treatment
 
 Audience: adult caregivers learning what common supports aim to do. Format:
 portrait 9:16, 540 × 960; five independent, 48-second captioned films.
-Identity: Huda's cream, navy, and teal palette, clean sans-serif lettering.
+Identity: Huda AAC's cream, navy, and teal palette, clean sans-serif lettering.
 No real children, third-party video, music, clinical demonstration, or fabricated
 clinician endorsement. Sound is intentionally absent; all explanation is visible
 in captions and an offline transcript.
@@ -43,7 +43,7 @@ tracks an individual goal, without fabricated outcome numbers. Play connects
 two actors through a shared object. Together joins caregiver and professional
 support to the same goal. Reference concludes with a source panel.
 
-Persistent layers: one Huda masthead, the episode category, and the progress
+Persistent layers: one Huda AAC masthead, the episode category, and the progress
 track. Every shot owns its heading, caption, and diagram, so there are no doubled
 layers on transitions. Captions remain readable at the start and end of each
 shot. No flashing, strobing, or fast camera motion.

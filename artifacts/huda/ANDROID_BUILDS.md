@@ -5,7 +5,7 @@ Each run creates a standalone APK and an Android App Bundle. Download them
 from the run's **Artifacts** section once the build succeeds.
 
 The workflow uses the checked-in Expo SDK and pnpm lockfile. Native files are
-generated only on GitHub's runner; Huda remains a managed Expo project.
+generated only on GitHub's runner; Huda AAC remains a managed Expo project.
 JavaScript, tile images, sounds, and the native therapy videos are bundled.
 It does not require Expo account authentication or upload anything to Google Play.
 
@@ -25,7 +25,7 @@ Configure these only in GitHub's secure secret settings, never in chat or
 source files. Use the existing upload key for an already-published app.
 The workflow fails explicitly if signing is only partially configured.
 
-**Do not uninstall an existing Huda installation to fix a test-key mismatch.**
+**Do not uninstall an existing Huda AAC installation to fix a test-key mismatch.**
 Uninstalling removes its local boards, recordings, and settings.
 
 ## Version codes and optional online features
@@ -36,5 +36,5 @@ version in **Run workflow**; runs from other systems may use a higher number.
 
 If online image search needs the hosted API, set repository Actions variables
 `EXPO_PUBLIC_DOMAIN` and `EXPO_PUBLIC_REPL_ID` to the appropriate public values.
-Do not place private API keys in `EXPO_PUBLIC_*` variables. Huda's local boards,
+Do not place private API keys in `EXPO_PUBLIC_*` variables. Huda AAC's local boards,
 recordings, sounds, and therapy videos do not require an account or this API.
