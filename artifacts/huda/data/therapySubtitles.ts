@@ -1,0 +1,384 @@
+import type { TherapySegment } from './therapyLessons';
+import type { LanguageCode } from './translations';
+
+export type TherapySubtitleSegment = Pick<TherapySegment, 'heading' | 'caption'>;
+
+type LessonId = 'speech-aac' | 'occupational' | 'play' | 'caregiver' | 'behavior';
+type TranslatedLessons = Record<LessonId, TherapySubtitleSegment[]>;
+
+const translatedSubtitles: Record<Exclude<LanguageCode, 'en'>, TranslatedLessons> = {
+  es: {
+    'speech-aac': [
+      { heading: 'Toda forma de comunicación cuenta', caption: 'El habla, los gestos, las imágenes y los dispositivos pueden ayudar a un niño a compartir un mensaje.' },
+      { heading: 'Más que palabras habladas', caption: 'La terapia del habla y el lenguaje puede apoyar la comprensión, la expresión y la comunicación con otras personas.' },
+      { heading: 'Una imagen puede transmitir un mensaje', caption: 'La comunicación aumentativa y alternativa ofrece otra forma de expresar una elección, una necesidad o un rechazo.' },
+      { heading: 'El acceso es lo primero', caption: 'La CAA no exige alcanzar hitos previos. Puede usarse junto con el habla.' },
+      { heading: 'Adáptalo al niño', caption: 'Un logopeda puede adaptar el vocabulario y la forma de acceso. La comunicación significativa importa más que decir palabras cuando se le pide.' },
+      { heading: 'Aprende con un profesional cualificado', caption: 'Los beneficios varían en cada niño. Animación educativa original, no instrucciones de tratamiento. Referencias: ASHA; CDC.' },
+    ],
+    occupational: [
+      { heading: 'Haz la vida diaria más accesible', caption: 'La terapia ocupacional se centra en participar en las actividades diarias, no en cambiar quién es el niño.' },
+      { heading: 'Elige una meta importante', caption: 'Las metas pueden incluir vestirse, comer, jugar o participar en la rutina del aula.' },
+      { heading: 'Adapta la tarea o el entorno', caption: 'Un terapeuta ocupacional puede adaptar herramientas, dividir una tarea en pasos o reducir una barrera sensorial.' },
+      { heading: 'La comodidad facilita la participación', caption: 'Las necesidades motoras y sensoriales varían. Una adaptación útil para un niño puede no servir para otro.' },
+      { heading: 'Comprueba si ayuda', caption: 'La evidencia varía según la técnica. Acuerda una meta funcional y revisa el progreso con el terapeuta.' },
+      { heading: 'Apoyo, no una cura', caption: 'El terapeuta ocupacional adapta el plan. Animación educativa original, no una prescripción de ejercicios. Referencias: CDC; AAP.' },
+    ],
+    play: [
+      { heading: 'Conectar mediante el disfrute compartido', caption: 'Los enfoques basados en el juego usan actividades que interesan al niño para favorecer la participación y el aprendizaje.' },
+      { heading: 'La comunicación también ocurre al jugar', caption: 'La atención compartida, los turnos y la comunicación recíproca pueden ser objetivos del apoyo profesional.' },
+      { heading: 'Adáptalo al desarrollo', caption: 'NICE recomienda adaptar las estrategias de comunicación social a las habilidades y necesidades del niño.' },
+      { heading: 'Los cuidadores pueden colaborar', caption: 'Un profesional capacitado puede orientar a madres, padres o cuidadores para apoyar la interacción en actividades diarias.' },
+      { heading: 'Respeta la comodidad del niño', caption: 'La participación compartida no significa forzar el contacto visual. Importan el disfrute y la voluntad de participar.' },
+      { heading: 'Elijan el apoyo en equipo', caption: 'Los resultados varían según el enfoque. Animación educativa original, no un protocolo de terapia. Referencias: NICE CG170; CDC.' },
+    ],
+    caregiver: [
+      { heading: 'Las rutinas diarias también enseñan', caption: 'El acompañamiento a cuidadores incorpora oportunidades de comunicación y participación en actividades cotidianas conocidas.' },
+      { heading: 'Apoya también a quien cuida', caption: 'Un facilitador capacitado ayuda a las familias a elegir metas prácticas, sin esperar que lo hagan todo solas.' },
+      { heading: 'Habilidades para la vida diaria', caption: 'La formación de cuidadores de la OMS busca apoyar la comunicación, la participación, la conducta positiva y las habilidades diarias.' },
+      { heading: 'Adáptalo a la familia', caption: 'El tiempo, los recursos, el idioma y las necesidades del niño influyen en qué estrategias son viables.' },
+      { heading: 'El acompañamiento no sustituye la atención', caption: 'El programa de la OMS está dirigido a niños de 2 a 9 años. Consulta con servicios capacitados si es adecuado.' },
+      { heading: 'Metas pequeñas, revisión en equipo', caption: 'El progreso varía entre familias. Animación educativa original, no es el curso de la OMS. Referencias: WHO CST; NICE CG170.' },
+    ],
+    behavior: [
+      { heading: 'Primero, comprende la necesidad', caption: 'El malestar o una conducta insegura pueden relacionarse con dolor, barreras de comunicación o un entorno abrumador.' },
+      { heading: 'Evalúa antes de elegir una estrategia', caption: 'NICE recomienda revisar la salud y el entorno, y después hacer una evaluación funcional cuando corresponda.' },
+      { heading: 'Desarrolla alternativas útiles', caption: 'Los enfoques conductuales, incluido el ABA, pueden apoyar la comunicación y las habilidades diarias. Los programas varían mucho.' },
+      { heading: 'La calidad de vida es el objetivo', caption: 'Elige metas importantes con profesionales y familiares. Respeta la comodidad, las preferencias y la disposición del niño.' },
+      { heading: 'No se trata de obedecer a cualquier precio', caption: 'No castigues el malestar ni intentes cambiar diferencias inofensivas para parecer típico. Consulta tus inquietudes con profesionales cualificados.' },
+      { heading: 'Apoyo individual, resultados revisados', caption: 'No existe un programa único para todos. Animación educativa original, no instrucciones para manejar la conducta. Referencias: NICE CG170; CDC.' },
+    ],
+  },
+  fr: {
+    'speech-aac': [
+      { heading: 'Chaque façon de communiquer compte', caption: 'La parole, les gestes, les images et les appareils peuvent aider un enfant à transmettre un message.' },
+      { heading: 'La communication ne se limite pas aux mots', caption: 'L’orthophonie peut soutenir la compréhension, l’expression et la communication avec les autres.' },
+      { heading: 'Une image peut transmettre un message', caption: 'La communication améliorée et alternative offre un autre moyen d’exprimer un choix, un besoin ou un refus.' },
+      { heading: 'L’accès passe avant la performance', caption: 'La CAA ne nécessite aucun acquis préalable. Elle peut être utilisée en complément de la parole.' },
+      { heading: 'Adapter au profil de l’enfant', caption: 'Un orthophoniste peut adapter le vocabulaire et les moyens d’accès. Une communication qui a du sens compte davantage que dire des mots sur demande.' },
+      { heading: 'Se faire accompagner par un professionnel qualifié', caption: 'Les bénéfices varient selon les enfants. Animation éducative originale, pas des consignes de traitement. Références : ASHA ; CDC.' },
+    ],
+    occupational: [
+      { heading: 'Rendre le quotidien plus accessible', caption: 'L’ergothérapie vise la participation aux activités quotidiennes, pas à changer qui est l’enfant.' },
+      { heading: 'Choisir un objectif qui compte', caption: 'Les objectifs peuvent concerner l’habillage, les repas, le jeu ou la participation aux routines de classe.' },
+      { heading: 'Adapter la tâche ou l’environnement', caption: 'Un ergothérapeute peut adapter les outils, décomposer une tâche ou réduire un obstacle sensoriel.' },
+      { heading: 'Le confort favorise la participation', caption: 'Les besoins moteurs et sensoriels diffèrent. Une adaptation utile à un enfant peut ne pas convenir à un autre.' },
+      { heading: 'Vérifier si cela aide', caption: 'Les données varient selon les techniques. Définissez un objectif fonctionnel et faites le point avec le thérapeute.' },
+      { heading: 'Un soutien, pas un remède', caption: 'L’ergothérapeute personnalise le plan. Animation éducative originale, pas une prescription d’exercices. Références : CDC ; AAP.' },
+    ],
+    play: [
+      { heading: 'Créer du lien par le plaisir partagé', caption: 'Les approches par le jeu s’appuient sur les activités qui intéressent l’enfant pour soutenir sa participation et ses apprentissages.' },
+      { heading: 'La communication passe aussi par le jeu', caption: 'L’attention partagée, les tours de rôle et la communication réciproque peuvent être des objectifs d’un accompagnement professionnel.' },
+      { heading: 'S’adapter au développement', caption: 'NICE recommande d’adapter les stratégies de communication sociale aux capacités et aux besoins de l’enfant.' },
+      { heading: 'Les proches peuvent être partenaires', caption: 'Un professionnel formé peut accompagner les parents ou les proches pour favoriser les interactions dans les activités quotidiennes.' },
+      { heading: 'Respecter le confort de l’enfant', caption: 'L’engagement partagé ne signifie pas imposer le contact visuel. Le plaisir et l’envie de participer comptent.' },
+      { heading: 'Choisir l’accompagnement ensemble', caption: 'Les résultats varient selon les approches. Animation éducative originale, pas un protocole thérapeutique. Références : NICE CG170 ; CDC.' },
+    ],
+    caregiver: [
+      { heading: 'Les routines quotidiennes favorisent aussi les apprentissages', caption: 'L’accompagnement des proches intègre des occasions de communiquer et de participer aux activités familières du quotidien.' },
+      { heading: 'Soutenir aussi la personne qui accompagne', caption: 'Un intervenant formé aide les familles à choisir des objectifs pratiques, sans leur demander de tout gérer seules.' },
+      { heading: 'Des compétences pour la vie quotidienne', caption: 'La formation de l’OMS vise à soutenir la communication, l’engagement, les comportements positifs et les compétences du quotidien.' },
+      { heading: 'Adapter aux besoins de la famille', caption: 'Le temps, les ressources, la langue et les besoins de l’enfant influencent les stratégies réalisables.' },
+      { heading: 'L’accompagnement ne remplace pas les soins', caption: 'Le programme de l’OMS s’adresse aux enfants de 2 à 9 ans. Discutez de sa pertinence avec des services formés.' },
+      { heading: 'Petits objectifs, bilan partagé', caption: 'Les progrès varient selon les familles. Animation éducative originale, pas le cours de l’OMS. Références : WHO CST ; NICE CG170.' },
+    ],
+    behavior: [
+      { heading: 'Commencer par comprendre le besoin', caption: 'La détresse ou un comportement dangereux peut être lié à une douleur, à des obstacles de communication ou à un environnement accablant.' },
+      { heading: 'Évaluer avant de choisir une stratégie', caption: 'NICE recommande d’examiner la santé et l’environnement, puis de réaliser une évaluation fonctionnelle si nécessaire.' },
+      { heading: 'Développer des solutions utiles', caption: 'Les approches comportementales, dont l’ABA, peuvent soutenir la communication et les compétences quotidiennes. Les programmes varient beaucoup.' },
+      { heading: 'La qualité de vie est l’objectif', caption: 'Choisissez des objectifs utiles avec les professionnels et la famille. Respectez le confort, les préférences et l’accord de l’enfant.' },
+      { heading: 'Pas d’obéissance à tout prix', caption: 'Ne punissez pas la détresse et ne ciblez pas des différences inoffensives pour paraître typique. Parlez-en à des professionnels qualifiés.' },
+      { heading: 'Un soutien individualisé, des résultats suivis', caption: 'Il n’existe pas de programme universel. Animation éducative originale, pas des instructions de gestion du comportement. Références : NICE CG170 ; CDC.' },
+    ],
+  },
+  ar: {
+    'speech-aac': [
+      { heading: 'كل طرق التواصل مهمة', caption: 'يمكن للكلام والإشارات والصور والأجهزة أن تساعد الطفل على إيصال رسالة.' },
+      { heading: 'التواصل أوسع من الكلام', caption: 'يمكن لعلاج النطق واللغة أن يدعم الفهم والتعبير والتواصل مع الآخرين.' },
+      { heading: 'قد تحمل الصورة رسالة', caption: 'يوفر التواصل المعزّز والبديل طريقًا آخر للتعبير عن اختيار أو حاجة أو رفض.' },
+      { heading: 'إتاحة التواصل أولًا', caption: 'لا يشترط التواصل المعزّز والبديل بلوغ مهارات مسبقة، ويمكن استخدامه إلى جانب الكلام.' },
+      { heading: 'اجعلها مناسبة للطفل', caption: 'يمكن لأخصائي النطق واللغة تكييف المفردات وطريقة الوصول. التواصل ذو المعنى أهم من نطق الكلمات عند الطلب.' },
+      { heading: 'تعلّم مع مختص مؤهل', caption: 'تختلف الفوائد من طفل إلى آخر. رسوم تعليمية أصلية وليست تعليمات علاجية. المراجع: ASHA؛ CDC.' },
+    ],
+    occupational: [
+      { heading: 'اجعل الحياة اليومية أيسر', caption: 'يركز العلاج الوظيفي على مشاركة الطفل في الأنشطة اليومية، لا على تغيير هويته.' },
+      { heading: 'اختر هدفًا مهمًا', caption: 'قد تشمل الأهداف ارتداء الملابس أو تناول الطعام أو اللعب أو المشاركة في روتين الصف.' },
+      { heading: 'غيّر المهمة أو البيئة', caption: 'قد يكيّف أخصائي العلاج الوظيفي الأدوات، أو يقسم المهمة إلى خطوات، أو يقلل عائقًا حسيًا.' },
+      { heading: 'الراحة تدعم المشاركة', caption: 'تختلف الاحتياجات الحركية والحسية. وقد لا يناسب طفلًا ما يفيد طفلًا آخر.' },
+      { heading: 'تحقق مما إذا كان ذلك مفيدًا', caption: 'تختلف الأدلة باختلاف الأسلوب. اتفقوا على هدف عملي وراجعوا التقدم مع المعالج.' },
+      { heading: 'دعم وليس علاجًا شافيًا', caption: 'يخصص أخصائي العلاج الوظيفي الخطة لكل طفل. رسوم تعليمية أصلية وليست وصفة تمارين. المراجع: CDC؛ AAP.' },
+    ],
+    play: [
+      { heading: 'التواصل عبر متعة مشتركة', caption: 'تستخدم أساليب اللعب أنشطة تهم الطفل لدعم المشاركة والتعلم.' },
+      { heading: 'يمكن أن يحدث التواصل أثناء اللعب', caption: 'قد تشمل أهداف الدعم المهني الانتباه المشترك وتبادل الأدوار والتواصل المتبادل.' },
+      { heading: 'ما يناسب مستوى النمو', caption: 'توصي NICE بتكييف استراتيجيات التواصل الاجتماعي مع قدرات الطفل واحتياجاته.' },
+      { heading: 'يمكن لمقدمي الرعاية المشاركة', caption: 'قد يدرب مختص مؤهل الوالدين أو مقدمي الرعاية على دعم التفاعل في الأنشطة اليومية.' },
+      { heading: 'احترم راحة الطفل', caption: 'لا تعني المشاركة المشتركة فرض التواصل البصري. فالاستمتاع والرغبة في المشاركة مهمان.' },
+      { heading: 'اختاروا الدعم معًا', caption: 'تختلف النتائج باختلاف الأساليب. رسوم تعليمية أصلية وليست بروتوكول علاج. المراجع: NICE CG170؛ CDC.' },
+    ],
+    caregiver: [
+      { heading: 'الروتين اليومي يتيح فرصًا للتعلم', caption: 'يدمج تدريب مقدمي الرعاية فرص التواصل والمشاركة في الأنشطة اليومية المألوفة.' },
+      { heading: 'ادعم مقدم الرعاية أيضًا', caption: 'يساعد ميسّر مدرّب الأسرة على اختيار أهداف عملية، بدلًا من توقع أن تتدبر الأمور وحدها.' },
+      { heading: 'مهارات للحياة اليومية', caption: 'يهدف تدريب منظمة الصحة العالمية لمقدمي الرعاية إلى دعم التواصل والمشاركة والسلوك الإيجابي ومهارات الحياة اليومية.' },
+      { heading: 'كيّف الدعم مع الأسرة', caption: 'يؤثر الوقت والموارد واللغة واحتياجات الطفل في الاستراتيجيات القابلة للتطبيق.' },
+      { heading: 'التدريب لا يحل محل الرعاية', caption: 'يستهدف برنامج منظمة الصحة العالمية الأطفال من عمر سنتين إلى 9 سنوات. ناقشوا ملاءمته مع خدمات مختصة.' },
+      { heading: 'أهداف صغيرة ومراجعة مشتركة', caption: 'يختلف التقدم بين الأسر. رسوم تعليمية أصلية وليست دورة منظمة الصحة العالمية. المراجع: WHO CST؛ NICE CG170.' },
+    ],
+    behavior: [
+      { heading: 'ابدأ بفهم الحاجة', caption: 'قد يرتبط الضيق أو السلوك غير الآمن بالألم أو صعوبات التواصل أو بيئة مرهقة.' },
+      { heading: 'قيّم قبل اختيار استراتيجية', caption: 'توصي NICE بفحص الصحة والبيئة، ثم إجراء تقييم وظيفي عند الاقتضاء.' },
+      { heading: 'ابنِ بدائل مفيدة', caption: 'قد تدعم الأساليب السلوكية، ومنها ABA، التواصل ومهارات الحياة اليومية. وتختلف البرامج كثيرًا.' },
+      { heading: 'جودة الحياة هي الهدف', caption: 'اختر أهدافًا مهمة بالتعاون مع المختصين والأسرة. احترم راحة الطفل وتفضيلاته واستعداده.' },
+      { heading: 'ليس الهدف الطاعة بأي ثمن', caption: 'لا تعاقب الضيق ولا تستهدف اختلافات غير مؤذية لمجرد الظهور بمظهر نمطي. ناقش المخاوف مع مختصين مؤهلين.' },
+      { heading: 'دعم فردي ونتائج تُراجع', caption: 'لا يوجد برنامج واحد يناسب الجميع. رسوم تعليمية أصلية وليست تعليمات لإدارة السلوك. المراجع: NICE CG170؛ CDC.' },
+    ],
+  },
+  de: {
+    'speech-aac': [
+      { heading: 'Jede Art der Kommunikation zählt', caption: 'Sprache, Gesten, Bilder und Geräte können einem Kind helfen, eine Botschaft mitzuteilen.' },
+      { heading: 'Mehr als gesprochene Worte', caption: 'Logopädische Unterstützung kann Verständnis, Ausdruck und die Kommunikation mit anderen fördern.' },
+      { heading: 'Ein Bild kann eine Botschaft vermitteln', caption: 'Unterstützte Kommunikation bietet einen weiteren Weg, eine Wahl, ein Bedürfnis oder eine Ablehnung auszudrücken.' },
+      { heading: 'Zugang ist wichtiger als Leistung', caption: 'Für Unterstützte Kommunikation sind keine Vorstufen erforderlich. Sie kann parallel zur Lautsprache genutzt werden.' },
+      { heading: 'An das Kind anpassen', caption: 'Eine Fachkraft für Sprachtherapie kann Wortschatz und Zugang anpassen. Sinnvolle Kommunikation zählt mehr als Worte auf Aufforderung.' },
+      { heading: 'Mit einer qualifizierten Fachkraft lernen', caption: 'Der Nutzen ist von Kind zu Kind verschieden. Originale Lernanimation, keine Behandlungsanleitung. Quellen: ASHA; CDC.' },
+    ],
+    occupational: [
+      { heading: 'Den Alltag zugänglicher machen', caption: 'Ergotherapie unterstützt die Teilnahme an alltäglichen Aktivitäten, nicht die Veränderung der Persönlichkeit eines Kindes.' },
+      { heading: 'Ein sinnvolles Ziel wählen', caption: 'Ziele können Anziehen, Essen, Spielen oder die Teilnahme am Unterrichtsalltag betreffen.' },
+      { heading: 'Aufgabe oder Umgebung anpassen', caption: 'Ergotherapeutinnen und Ergotherapeuten können Hilfsmittel anpassen, Aufgaben aufteilen oder eine sensorische Barriere verringern.' },
+      { heading: 'Wohlbefinden unterstützt die Teilnahme', caption: 'Motorische und sensorische Bedürfnisse sind verschieden. Was einem Kind hilft, passt vielleicht nicht zu einem anderen.' },
+      { heading: 'Prüfen, ob es hilft', caption: 'Die Evidenz unterscheidet sich je nach Methode. Vereinbart ein alltagsbezogenes Ziel und überprüft den Fortschritt gemeinsam.' },
+      { heading: 'Unterstützung, keine Heilung', caption: 'Eine Ergotherapie-Fachkraft passt den Plan individuell an. Lernanimation, keine Übungsanweisung. Quellen: CDC; AAP.' },
+    ],
+    play: [
+      { heading: 'Verbindung durch gemeinsame Freude', caption: 'Spielbasierte Ansätze nutzen die Interessen des Kindes, um Beteiligung und Lernen zu unterstützen.' },
+      { heading: 'Kommunikation findet auch im Spiel statt', caption: 'Geteilte Aufmerksamkeit, abwechselnde Rollen und wechselseitige Kommunikation können Ziele fachlicher Unterstützung sein.' },
+      { heading: 'An den Entwicklungsstand anpassen', caption: 'NICE empfiehlt, Strategien für soziale Kommunikation an Fähigkeiten und Bedürfnisse des Kindes anzupassen.' },
+      { heading: 'Bezugspersonen können mitwirken', caption: 'Eine geschulte Fachkraft kann Eltern oder Betreuungspersonen dabei begleiten, Interaktionen im Alltag zu unterstützen.' },
+      { heading: 'Das Wohlbefinden des Kindes achten', caption: 'Gemeinsame Beteiligung bedeutet nicht, Blickkontakt zu erzwingen. Freude und freiwillige Teilnahme sind wichtig.' },
+      { heading: 'Unterstützung gemeinsam auswählen', caption: 'Die Ergebnisse unterscheiden sich je nach Ansatz. Lernanimation, kein Therapieprotokoll. Quellen: NICE CG170; CDC.' },
+    ],
+    caregiver: [
+      { heading: 'Alltagsroutinen eröffnen Lerngelegenheiten', caption: 'Elterncoaching verankert Möglichkeiten für Kommunikation und Beteiligung in vertrauten täglichen Aktivitäten.' },
+      { heading: 'Auch die Betreuungsperson unterstützen', caption: 'Eine geschulte Fachkraft hilft Familien, praktische Ziele auszuwählen, statt von ihnen zu erwarten, alles allein zu bewältigen.' },
+      { heading: 'Fähigkeiten für den Alltag', caption: 'Das WHO-Training für Betreuungspersonen soll Kommunikation, Beteiligung, positives Verhalten und Alltagsfähigkeiten unterstützen.' },
+      { heading: 'An die Familie anpassen', caption: 'Zeit, Ressourcen, Sprache und die Bedürfnisse des Kindes beeinflussen, welche Strategien umsetzbar sind.' },
+      { heading: 'Coaching ersetzt keine Versorgung', caption: 'Das WHO-Programm richtet sich an Kinder von 2 bis 9 Jahren. Besprecht die Eignung mit geschulten Diensten.' },
+      { heading: 'Kleine Ziele, gemeinsame Überprüfung', caption: 'Fortschritte unterscheiden sich von Familie zu Familie. Lernanimation, nicht der WHO-Kurs. Quellen: WHO CST; NICE CG170.' },
+    ],
+    behavior: [
+      { heading: 'Zuerst das Bedürfnis verstehen', caption: 'Belastung oder unsicheres Verhalten kann mit Schmerzen, Kommunikationsbarrieren oder einer überfordernden Umgebung zusammenhängen.' },
+      { heading: 'Erst prüfen, dann eine Strategie wählen', caption: 'NICE empfiehlt, Gesundheit und Umgebung zu prüfen und bei Bedarf eine funktionale Einschätzung vorzunehmen.' },
+      { heading: 'Hilfreiche Alternativen aufbauen', caption: 'Verhaltensorientierte Ansätze, auch ABA, können Kommunikation und Alltagsfähigkeiten unterstützen. Programme unterscheiden sich stark.' },
+      { heading: 'Lebensqualität ist das Ziel', caption: 'Wählt mit Fachkräften und Familie sinnvolle Ziele. Achtet auf Wohlbefinden, Vorlieben und die Bereitschaft des Kindes.' },
+      { heading: 'Nicht Gehorsam um jeden Preis', caption: 'Bestrafe keine Belastung und richte dich nicht gegen harmlose Unterschiede, nur um angepasst zu wirken. Besprecht Sorgen mit Fachkräften.' },
+      { heading: 'Individuelle Hilfe, überprüfte Ergebnisse', caption: 'Es gibt kein Programm für alle. Lernanimation, keine Anleitung zum Umgang mit Verhalten. Quellen: NICE CG170; CDC.' },
+    ],
+  },
+  pt: {
+    'speech-aac': [
+      { heading: 'Toda forma de comunicação importa', caption: 'A fala, os gestos, as imagens e os dispositivos podem ajudar uma criança a transmitir uma mensagem.' },
+      { heading: 'Mais do que palavras faladas', caption: 'A terapia da fala e da linguagem pode apoiar a compreensão, a expressão e a comunicação com outras pessoas.' },
+      { heading: 'Uma imagem pode transmitir uma mensagem', caption: 'A comunicação aumentativa e alternativa oferece outra forma de expressar uma escolha, uma necessidade ou uma recusa.' },
+      { heading: 'O acesso vem antes do desempenho', caption: 'A CAA não exige etapas prévias. Ela pode ser usada junto com a fala.' },
+      { heading: 'Adapte ao perfil da criança', caption: 'Um fonoaudiólogo pode adaptar o vocabulário e o acesso. A comunicação significativa importa mais do que dizer palavras sob demanda.' },
+      { heading: 'Aprenda com um profissional qualificado', caption: 'Os benefícios variam para cada criança. Animação educativa original, não instruções de tratamento. Referências: ASHA; CDC.' },
+    ],
+    occupational: [
+      { heading: 'Torne o dia a dia mais acessível', caption: 'A terapia ocupacional promove a participação nas atividades diárias, não a mudança de quem a criança é.' },
+      { heading: 'Escolha uma meta importante', caption: 'As metas podem envolver vestir-se, comer, brincar ou participar da rotina da sala de aula.' },
+      { heading: 'Adapte a tarefa ou o ambiente', caption: 'Um terapeuta ocupacional pode adaptar ferramentas, dividir uma tarefa em etapas ou reduzir uma barreira sensorial.' },
+      { heading: 'O conforto favorece a participação', caption: 'As necessidades motoras e sensoriais variam. Uma adaptação útil para uma criança pode não servir para outra.' },
+      { heading: 'Confira se está ajudando', caption: 'As evidências variam conforme a técnica. Defina uma meta funcional e avalie o progresso com o terapeuta.' },
+      { heading: 'Apoio, não uma cura', caption: 'O terapeuta ocupacional adapta o plano. Animação educativa original, não uma prescrição de exercícios. Referências: CDC; AAP.' },
+    ],
+    play: [
+      { heading: 'Conexão por meio da diversão compartilhada', caption: 'Abordagens baseadas em brincadeiras usam atividades de interesse da criança para apoiar participação e aprendizagem.' },
+      { heading: 'A comunicação também acontece na brincadeira', caption: 'Atenção compartilhada, alternância de turnos e comunicação recíproca podem ser objetivos do apoio profissional.' },
+      { heading: 'Adapte ao nível de desenvolvimento', caption: 'A NICE recomenda adaptar estratégias de comunicação social às habilidades e necessidades da criança.' },
+      { heading: 'Cuidadores podem participar', caption: 'Um profissional capacitado pode orientar pais ou cuidadores a apoiar interações nas atividades do dia a dia.' },
+      { heading: 'Respeite o conforto da criança', caption: 'Engajamento compartilhado não significa forçar contato visual. O prazer e a vontade de participar são importantes.' },
+      { heading: 'Escolham o apoio em conjunto', caption: 'Os resultados variam entre abordagens. Animação educativa original, não um protocolo terapêutico. Referências: NICE CG170; CDC.' },
+    ],
+    caregiver: [
+      { heading: 'Rotinas diárias também podem ensinar', caption: 'A orientação a cuidadores inclui oportunidades de comunicação e participação em atividades familiares do dia a dia.' },
+      { heading: 'Apoie também quem cuida', caption: 'Um facilitador capacitado ajuda as famílias a escolher metas práticas, sem esperar que resolvam tudo sozinhas.' },
+      { heading: 'Habilidades para a vida diária', caption: 'A formação da OMS para cuidadores busca apoiar comunicação, engajamento, comportamento positivo e habilidades do dia a dia.' },
+      { heading: 'Adapte à família', caption: 'Tempo, recursos, idioma e necessidades da criança influenciam quais estratégias são viáveis.' },
+      { heading: 'A orientação não substitui o cuidado', caption: 'O programa da OMS é voltado a crianças de 2 a 9 anos. Converse sobre a adequação com serviços capacitados.' },
+      { heading: 'Metas pequenas, revisão em conjunto', caption: 'O progresso varia entre famílias. Animação educativa original, não é o curso da OMS. Referências: WHO CST; NICE CG170.' },
+    ],
+    behavior: [
+      { heading: 'Comece entendendo a necessidade', caption: 'O sofrimento ou um comportamento inseguro pode estar ligado a dor, barreiras de comunicação ou um ambiente excessivo.' },
+      { heading: 'Avalie antes de escolher uma estratégia', caption: 'A NICE recomenda verificar saúde e ambiente e, quando apropriado, fazer uma avaliação funcional.' },
+      { heading: 'Desenvolva alternativas úteis', caption: 'Abordagens comportamentais, incluindo ABA, podem apoiar comunicação e habilidades diárias. Os programas variam bastante.' },
+      { heading: 'Qualidade de vida é o objetivo', caption: 'Escolha metas importantes com profissionais e família. Respeite o conforto, as preferências e a disposição da criança.' },
+      { heading: 'Obediência não é o objetivo a qualquer custo', caption: 'Não puna o sofrimento nem tente mudar diferenças inofensivas para parecer típico. Converse com profissionais qualificados.' },
+      { heading: 'Apoio individual, resultados acompanhados', caption: 'Não existe um programa único para todos. Animação educativa original, não instruções de manejo comportamental. Referências: NICE CG170; CDC.' },
+    ],
+  },
+  zh: {
+    'speech-aac': [
+      { heading: '每一种沟通方式都重要', caption: '语言、手势、图片和设备都可以帮助孩子传达信息。' },
+      { heading: '沟通不只靠说话', caption: '言语与语言治疗可以帮助孩子理解、表达并与他人交流。' },
+      { heading: '一张图片也能传递信息', caption: '辅助与替代沟通为表达选择、需求或拒绝提供另一种方式。' },
+      { heading: '先确保沟通方式可用', caption: '使用辅助与替代沟通不需要先达到某些里程碑，也可以与口语同时使用。' },
+      { heading: '让方式适合孩子', caption: '言语语言治疗师可以调整词汇和使用方式。有意义的沟通比按要求说出词语更重要。' },
+      { heading: '与合格的专业人士一起了解', caption: '每个孩子获得的帮助可能不同。这是原创教育动画，不是治疗指导。参考：ASHA；CDC。' },
+    ],
+    occupational: [
+      { heading: '让日常生活更容易参与', caption: '职业治疗关注孩子如何参与日常活动，而不是改变孩子本身。' },
+      { heading: '选择有意义的目标', caption: '目标可以包括穿衣、吃饭、玩耍或参与课堂日常活动。' },
+      { heading: '调整任务或环境', caption: '职业治疗师可以调整工具、把任务分成小步骤，或减少感官方面的障碍。' },
+      { heading: '舒适有助于参与', caption: '每个孩子的动作和感官需求不同。适合一个孩子的调整未必适合另一个孩子。' },
+      { heading: '检查是否有帮助', caption: '不同方法的证据各不相同。与治疗师商定实际目标，并一起回顾进展。' },
+      { heading: '提供支持，而非治愈', caption: '职业治疗师会为孩子调整计划。这是教育动画，不是运动处方。参考：CDC；AAP。' },
+    ],
+    play: [
+      { heading: '通过共同的乐趣建立联系', caption: '以游戏为基础的方法会利用孩子感兴趣的活动来支持参与和学习。' },
+      { heading: '游戏也能促进沟通', caption: '共同注意、轮流互动和双向沟通都可以成为专业支持的目标。' },
+      { heading: '符合孩子的发展水平', caption: 'NICE 建议根据孩子的能力和需求调整社交沟通策略。' },
+      { heading: '照护者可以成为伙伴', caption: '受过培训的专业人士可以指导家长或照护者，在日常活动中支持互动。' },
+      { heading: '尊重孩子的舒适感', caption: '共同参与不等于强迫眼神接触。孩子是否享受并愿意参与很重要。' },
+      { heading: '一起选择合适的支持', caption: '不同方法的结果各不相同。这是原创教育动画，不是治疗流程。参考：NICE CG170；CDC。' },
+    ],
+    caregiver: [
+      { heading: '日常活动也能创造学习机会', caption: '照护者指导会把沟通和参与的机会融入熟悉的日常活动。' },
+      { heading: '也要支持照护者', caption: '受过培训的带领者会帮助家庭选择实际目标，而不是要求他们独自承担一切。' },
+      { heading: '培养日常生活技能', caption: '世卫组织的照护者培训旨在支持沟通、参与、积极行为和日常生活技能。' },
+      { heading: '根据家庭情况调整', caption: '时间、资源、语言和孩子的需求都会影响哪些策略可行。' },
+      { heading: '指导不能替代专业照护', caption: '世卫组织的项目面向 2 至 9 岁儿童。请与受过培训的服务人员讨论是否适合。' },
+      { heading: '小目标，一起回顾', caption: '每个家庭的进展不同。这是原创教育动画，不是世卫组织课程。参考：WHO CST；NICE CG170。' },
+    ],
+    behavior: [
+      { heading: '先了解背后的需求', caption: '痛苦或不安全行为可能与疼痛、沟通障碍或令人不堪重负的环境有关。' },
+      { heading: '先评估，再选择策略', caption: 'NICE 建议先检查健康和环境因素，并在适当时进行功能评估。' },
+      { heading: '培养有帮助的替代方式', caption: '包括 ABA 在内的行为方法可能支持沟通和日常生活技能。不同项目差异很大。' },
+      { heading: '目标是提升生活质量', caption: '与专业人士和家人一起制定有意义的目标。尊重孩子的舒适感、偏好和意愿。' },
+      { heading: '不以服从为唯一目标', caption: '不要惩罚痛苦，也不要只为显得“正常”而针对无害的差异。请与合格专业人士讨论担忧。' },
+      { heading: '个别化支持，持续评估结果', caption: '没有一种方案适合所有人。这是原创教育动画，不是行为管理指导。参考：NICE CG170；CDC。' },
+    ],
+  },
+  hi: {
+    'speech-aac': [
+      { heading: 'हर तरह का संवाद महत्वपूर्ण है', caption: 'बोलना, इशारे, तस्वीरें और उपकरण बच्चे को अपना संदेश पहुँचाने में मदद कर सकते हैं।' },
+      { heading: 'संवाद केवल बोले गए शब्द नहीं है', caption: 'वाणी और भाषा चिकित्सा समझने, अपनी बात कहने और दूसरों से संवाद करने में मदद कर सकती है।' },
+      { heading: 'तस्वीर भी संदेश दे सकती है', caption: 'सहायक और वैकल्पिक संवाद से चुनाव, ज़रूरत या मना करने का एक और तरीका मिलता है।' },
+      { heading: 'प्रदर्शन से पहले पहुँच ज़रूरी है', caption: 'सहायक और वैकल्पिक संवाद के लिए पहले किसी पड़ाव तक पहुँचना ज़रूरी नहीं। इसका उपयोग बोलने के साथ भी हो सकता है।' },
+      { heading: 'तरीका बच्चे के अनुसार रखें', caption: 'वाणी-भाषा विशेषज्ञ शब्दावली और पहुँच को अनुकूल बना सकते हैं। माँगने पर शब्द बोलने से अधिक सार्थक संवाद मायने रखता है।' },
+      { heading: 'योग्य विशेषज्ञ के साथ सीखें', caption: 'हर बच्चे को अलग लाभ हो सकता है। यह मौलिक शैक्षिक एनिमेशन है, उपचार के निर्देश नहीं। संदर्भ: ASHA; CDC।' },
+    ],
+    occupational: [
+      { heading: 'रोज़मर्रा की ज़िंदगी को अधिक सुलभ बनाएँ', caption: 'व्यावसायिक चिकित्सा का ध्यान रोज़ के कामों में भागीदारी पर है, बच्चे को बदलने पर नहीं।' },
+      { heading: 'एक सार्थक लक्ष्य चुनें', caption: 'लक्ष्य कपड़े पहनना, खाना, खेलना या कक्षा की दिनचर्या में भाग लेना हो सकता है।' },
+      { heading: 'काम या वातावरण में बदलाव करें', caption: 'व्यावसायिक चिकित्सक औज़ार बदल सकते हैं, काम को चरणों में बाँट सकते हैं या किसी संवेदी बाधा को कम कर सकते हैं।' },
+      { heading: 'आराम से भागीदारी बढ़ती है', caption: 'हर बच्चे की शारीरिक और संवेदी ज़रूरतें अलग होती हैं। एक बच्चे के लिए उपयोगी बदलाव दूसरे के लिए सही न हो।' },
+      { heading: 'जाँचें कि इससे मदद मिलती है', caption: 'अलग-अलग तरीकों के प्रमाण अलग हैं। चिकित्सक के साथ व्यावहारिक लक्ष्य तय करें और प्रगति की समीक्षा करें।' },
+      { heading: 'सहायता, इलाज का दावा नहीं', caption: 'व्यावसायिक चिकित्सक योजना को बच्चे के अनुसार बनाते हैं। यह शैक्षिक एनिमेशन है, व्यायाम का निर्देश नहीं। संदर्भ: CDC; AAP।' },
+    ],
+    play: [
+      { heading: 'साझा आनंद से जुड़ाव', caption: 'खेल-आधारित तरीके बच्चे की रुचि वाली गतिविधियों से भागीदारी और सीखने को सहारा देते हैं।' },
+      { heading: 'खेल में भी संवाद होता है', caption: 'साझा ध्यान, बारी-बारी से खेलना और दोतरफ़ा संवाद पेशेवर सहायता के लक्ष्य हो सकते हैं।' },
+      { heading: 'विकास के स्तर के अनुसार ढालें', caption: 'NICE बच्चे की क्षमताओं और ज़रूरतों के अनुसार सामाजिक-संवाद रणनीतियाँ ढालने की सलाह देता है।' },
+      { heading: 'देखभाल करने वाले साथी बन सकते हैं', caption: 'प्रशिक्षित विशेषज्ञ माता-पिता या देखभाल करने वालों को रोज़मर्रा की गतिविधियों में संवाद बढ़ाने में मार्गदर्शन दे सकते हैं।' },
+      { heading: 'बच्चे के आराम का सम्मान करें', caption: 'साझा भागीदारी का अर्थ आँखों में देखने के लिए मजबूर करना नहीं है। आनंद और भाग लेने की इच्छा महत्वपूर्ण हैं।' },
+      { heading: 'मिलकर सहायता चुनें', caption: 'अलग तरीकों के परिणाम अलग होते हैं। यह मौलिक शैक्षिक एनिमेशन है, चिकित्सा की विधि नहीं। संदर्भ: NICE CG170; CDC।' },
+    ],
+    caregiver: [
+      { heading: 'रोज़ की दिनचर्या सीखने का अवसर है', caption: 'देखभालकर्ता प्रशिक्षण परिचित रोज़मर्रा के कामों में संवाद और भागीदारी के अवसर जोड़ता है।' },
+      { heading: 'देखभालकर्ता को भी सहारा दें', caption: 'प्रशिक्षित मार्गदर्शक परिवारों को व्यावहारिक लक्ष्य चुनने में मदद करता है, उनसे सब कुछ अकेले सँभालने की अपेक्षा नहीं करता।' },
+      { heading: 'रोज़मर्रा के जीवन के कौशल', caption: 'WHO का देखभालकर्ता प्रशिक्षण संवाद, भागीदारी, सकारात्मक व्यवहार और दैनिक जीवन के कौशलों को सहारा देना चाहता है।' },
+      { heading: 'परिवार के अनुसार ढालें', caption: 'समय, संसाधन, भाषा और बच्चे की ज़रूरतें तय करती हैं कि कौन-सी रणनीतियाँ संभव हैं।' },
+      { heading: 'प्रशिक्षण पेशेवर देखभाल का विकल्प नहीं', caption: 'WHO का कार्यक्रम 2 से 9 वर्ष के बच्चों के लिए है। उपयुक्तता पर प्रशिक्षित सेवाओं से बात करें।' },
+      { heading: 'छोटे लक्ष्य, मिलकर समीक्षा', caption: 'हर परिवार की प्रगति अलग होती है। यह मौलिक शैक्षिक एनिमेशन है, WHO का कोर्स नहीं। संदर्भ: WHO CST; NICE CG170।' },
+    ],
+    behavior: [
+      { heading: 'पहले ज़रूरत को समझें', caption: 'परेशानी या असुरक्षित व्यवहार का संबंध दर्द, संवाद में रुकावट या अत्यधिक तनाव वाले वातावरण से हो सकता है।' },
+      { heading: 'रणनीति से पहले आकलन', caption: 'NICE स्वास्थ्य और वातावरण की जाँच करने, फिर ज़रूरत पड़ने पर कार्यात्मक आकलन करने की सलाह देता है।' },
+      { heading: 'काम आने वाले विकल्प सिखाएँ', caption: 'ABA सहित व्यवहार-आधारित तरीके संवाद और दैनिक जीवन के कौशलों को सहारा दे सकते हैं। कार्यक्रमों में बहुत अंतर होता है।' },
+      { heading: 'लक्ष्य बेहतर जीवन-गुणवत्ता है', caption: 'विशेषज्ञों और परिवार के साथ सार्थक लक्ष्य चुनें। बच्चे के आराम, पसंद और इच्छा का सम्मान करें।' },
+      { heading: 'हर कीमत पर आज्ञापालन लक्ष्य नहीं', caption: 'परेशानी के लिए दंड न दें और केवल सामान्य दिखने के लिए हानिरहित भिन्नताओं को न बदलें। योग्य विशेषज्ञों से चिंता पर बात करें।' },
+      { heading: 'व्यक्तिगत सहायता, परिणामों की समीक्षा', caption: 'सबके लिए एक ही कार्यक्रम नहीं होता। यह मौलिक शैक्षिक एनिमेशन है, व्यवहार-प्रबंधन निर्देश नहीं। संदर्भ: NICE CG170; CDC।' },
+    ],
+  },
+};
+
+const controlCopy: Record<LanguageCode, {
+  listen: string;
+  stop: string;
+  subtitles: string;
+  voiceNote: string;
+  playbackError: string;
+}> = {
+  en: {
+    listen: 'Play narration',
+    stop: 'Stop narration',
+    subtitles: 'Subtitles',
+    voiceNote: 'Synthetic narration is included in the app and plays offline.',
+    playbackError: 'The offline narration could not be played. Please try again.',
+  },
+  es: {
+    listen: 'Reproducir narración en español',
+    stop: 'Detener narración',
+    subtitles: 'Subtítulos',
+    voiceNote: 'La narración sintética está incluida en la app y se reproduce sin conexión.',
+    playbackError: 'No se pudo reproducir la narración sin conexión. Inténtalo de nuevo.',
+  },
+  fr: {
+    listen: 'Lire la narration en français',
+    stop: 'Arrêter la narration',
+    subtitles: 'Sous-titres',
+    voiceNote: 'La narration synthétique est incluse dans l’application et se lit hors ligne.',
+    playbackError: 'Impossible de lire la narration hors ligne. Réessayez.',
+  },
+  ar: {
+    listen: 'تشغيل السرد بالعربية',
+    stop: 'إيقاف السرد',
+    subtitles: 'الترجمة النصية',
+    voiceNote: 'يتضمن التطبيق سردًا صوتيًا اصطناعيًا يمكن تشغيله دون اتصال.',
+    playbackError: 'تعذّر تشغيل السرد الصوتي دون اتصال. حاول مرة أخرى.',
+  },
+  de: {
+    listen: 'Deutsche Erzählung abspielen',
+    stop: 'Erzählung stoppen',
+    subtitles: 'Untertitel',
+    voiceNote: 'Die synthetische Erzählung ist in der App enthalten und offline abspielbar.',
+    playbackError: 'Die Offline-Erzählung konnte nicht abgespielt werden. Bitte erneut versuchen.',
+  },
+  pt: {
+    listen: 'Reproduzir narração em português',
+    stop: 'Parar narração',
+    subtitles: 'Legendas',
+    voiceNote: 'A narração sintética está incluída no app e pode ser reproduzida offline.',
+    playbackError: 'Não foi possível reproduzir a narração offline. Tente novamente.',
+  },
+  zh: {
+    listen: '播放中文旁白',
+    stop: '停止旁白',
+    subtitles: '字幕',
+    voiceNote: '应用内置合成旁白，可离线播放。',
+    playbackError: '无法播放离线旁白，请重试。',
+  },
+  hi: {
+    listen: 'हिंदी वर्णन चलाएँ',
+    stop: 'वर्णन रोकें',
+    subtitles: 'उपशीर्षक',
+    voiceNote: 'ऐप में सिंथेटिक वर्णन शामिल है और इसे ऑफ़लाइन चलाया जा सकता है।',
+    playbackError: 'ऑफ़लाइन वर्णन नहीं चल सका। फिर कोशिश करें।',
+  },
+};
+
+export function getTherapySubtitles(
+  lessonId: string,
+  language: LanguageCode,
+  englishSegments: TherapySegment[],
+): TherapySubtitleSegment[] {
+  const translated = language === 'en'
+    ? undefined
+    : translatedSubtitles[language][lessonId as LessonId];
+  return translated ?? englishSegments.map(({ heading, caption }) => ({ heading, caption }));
+}
+
+export function getTherapyControlCopy(language: LanguageCode) {
+  return controlCopy[language];
+}

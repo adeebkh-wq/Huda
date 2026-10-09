@@ -16,6 +16,8 @@ export interface PlaybackStatus {
   isLoaded: boolean;
   isPlaying: boolean;
   didJustFinish: boolean;
+  currentTime: number;
+  duration: number;
   error?: string;
 }
 type StatusListener = ((status: PlaybackStatus) => void) | null;
@@ -40,6 +42,8 @@ const toStatus = (status: AudioStatus): PlaybackStatus => ({
   isLoaded: status.isLoaded,
   isPlaying: status.playing,
   didJustFinish: status.didJustFinish,
+  currentTime: status.currentTime,
+  duration: status.duration,
   error: status.error ?? undefined,
 });
 
@@ -96,7 +100,7 @@ export namespace Audio {
     setOnPlaybackStatusUpdate(listener: StatusListener) { this.listener = listener; }
     async getStatusAsync(): Promise<PlaybackStatus> {
       return this.released
-        ? { isLoaded: false, isPlaying: false, didJustFinish: false }
+        ? { isLoaded: false, isPlaying: false, didJustFinish: false, currentTime: 0, duration: 0 }
         : toStatus(this.player.currentStatus);
     }
     async playAsync() { this.player.play(); }

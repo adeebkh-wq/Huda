@@ -19,7 +19,7 @@
         "backgroundColor": "#2A9D8F"
       },
       "package": "com.adeebfareeza.huda",
-      "versionCode": 25,
+      "versionCode": 27,
       "permissions": [
         "android.permission.VIBRATE",
         "android.permission.RECORD_AUDIO",
